@@ -19,7 +19,7 @@ export class RegistrationForm extends React.Component {
     render() {
         return (
             <form
-                className="login-form"
+                className="login-form col s12"
                 onSubmit={this.props.handleSubmit(values =>
                     this.onSubmit(values)
                 )}>
@@ -47,7 +47,7 @@ export class RegistrationForm extends React.Component {
                     type="password"
                     name="passwordConfirm"
                     validate={[required, nonEmpty, matchesPassword]}
-                />
+                />                
                 <button
                     type="submit"
                     disabled={this.props.pristine || this.props.submitting}>
