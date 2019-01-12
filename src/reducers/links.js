@@ -13,9 +13,10 @@ const initialState = {
     error: null
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = initialState, action) {    
     switch(action.type) {
         case FETCH_LINKS_REQUEST:
+        console.log('loading')
             return Object.assign({}, state, { loading: true });
         case FETCH_LINKS_SUCCESS:            
             return Object.assign({}, state, { 

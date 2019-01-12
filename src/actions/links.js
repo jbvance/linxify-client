@@ -11,9 +11,8 @@ export const EDIT_LINK_SUCCESS = 'edit_link_success';
 
 
 export const fetchUserLinks = () => (dispatch, getState) => {
-    dispatch(linksRequest());
-    const authToken = getState().auth.authToken;
-    console.log(`${API_BASE_URL}/links`);
+    dispatch(fetchLinksRequest());
+    const authToken = getState().auth.authToken;    
     return fetch(`${API_BASE_URL}/links`, {
         method: 'GET',
         headers: {
@@ -40,9 +39,11 @@ export const fetchLinksError = error => ({
     error
 });
 
-export const linksRequest = () => ({
-    type: FETCH_LINKS_REQUEST
-});
+export const fetchLinksRequest = () => {    
+    return {
+        type: FETCH_LINKS_REQUEST
+    }
+};
 
 export const editLinkSuccess = data => ({
     type: EDIT_LINK_SUCCESS,
