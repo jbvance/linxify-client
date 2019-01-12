@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import requiresLogin from './requires-login';
-import {fetchUserLinks} from '../actions/links';
+import requiresLogin from '../requires-login';
+import {fetchUserLinks} from '../../actions/links';
+import LoadingSpinner from '../loading-spinner'
 
 import './user-links.css';
 
@@ -30,16 +31,20 @@ export class UserLinks extends Component {
     }
 
     render() {
-        return (
+        if (this.props.loading) {
+            return <LoadingSpinner />
+        } else if (this.props.error) {
+            return <div>ERROR OCCURRED: {this.props.error}</div>
+        }
+        return (           
             <div>
                 <h1>My Links</h1>
-                <section className="links-container">
+                <section className="container links-container">            
                     {this.renderLinks()}
                 </section>
             </div>
         );
     }
-
 }
     
 const mapStateToProps = (state, props) => ({

@@ -8,3 +8,11 @@ body {
 .form-error {
   color: red;
 }
+
+.spinner {
+  width: 100%;
+  margin: 20px auto;
+  align-content: center;
+}
+
+textarea {height: 6rem;}

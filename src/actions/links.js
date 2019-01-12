@@ -5,6 +5,9 @@ import {normalizeResponseErrors} from './utils';
 export const FETCH_LINKS_REQUEST = 'link_request';
 export const FETCH_LINKS_SUCCESS = 'link_success';
 export const FETCH_LINKS_ERROR = 'link_errror';
+export const EDIT_LINK_REQUEST = 'edit_link_request';
+export const EDIT_LINK_ERROR = 'edit_link_error';
+export const EDIT_LINK_SUCCESS = 'edit_link_success';
 
 
 export const fetchUserLinks = () => (dispatch, getState) => {
@@ -39,4 +42,18 @@ export const fetchLinksError = error => ({
 
 export const linksRequest = () => ({
     type: FETCH_LINKS_REQUEST
+});
+
+export const editLinkSuccess = data => ({
+    type: EDIT_LINK_SUCCESS,
+    data: true
+});
+
+export const editLinkError = error => ({
+    type: EDIT_LINK_ERROR,
+    error
+});
+
+export const editLinkRequest = () => ({
+    type: EDIT_LINK_REQUEST
 });
