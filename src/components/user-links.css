@@ -1,0 +1,50 @@
+.links-container {
+    display: flex;
+    flex-direction: column; 
+    flex-grow: 1;
+    border-top: 1px solid #808080;
+    
+  }
+
+.link-row {
+    background-color: #fcfcfc;
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    align-items: center;
+    min-height: 50px;
+    padding: 10px;
+    border-bottom: 1px solid #808080;
+}
+
+.link-row__button-row {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .link-row__button {
+    margin: 5px;
+  }
+
+.favicon img {
+    max-width: 20px;
+    height: auto;
+}
+
+.url-text {
+    flex: 1 1 auto;
+    cursor: pointer;
+    margin: 0 10px 0 10px;
+} 
+
+.url-text a {
+    text-decoration: none;
+    color: rgba(0,0,0,0.7);
+}
+
+@media screen and (min-width: 768px) {
+    .link-row__button-row {
+        display: flex;
+        flex-direction: row;
+      }
+}

@@ -6,6 +6,7 @@ import HeaderBar from './header-bar';
 import LandingPage from './landing-page';
 import Dashboard from './dashboard';
 import RegistrationPage from './registration-page';
+import UserLinks from './user-links'
 import {refreshAuthToken} from '../actions/auth';
 
 export class App extends React.Component {
@@ -45,6 +46,7 @@ export class App extends React.Component {
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/register" component={RegistrationPage} />
+                <Route exact path="/my" component={UserLinks} />
             </div>
         );
     }
