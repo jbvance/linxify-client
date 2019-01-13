@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import LoadingSpinner from '../loading-spinner';
 //import { fetchLinksRequest, fetchLinksSuccess } from '../../actions/links';
 import { fetchUserCategories } from '../../actions/categories';
-import { fetchUserLinks, editLinkRequest, editLinkSuccess, editLinkError, addLink, addLinkSuccess  } from '../../actions/links';
+import { fetchUserLinks, editLinkRequest, editLinkSuccess, editLinkError, editLink, addLink, addLinkSuccess  } from '../../actions/links';
 
 import {API_BASE_URL} from '../../config';
 
@@ -49,12 +49,19 @@ export class LinkForm extends Component {
 
     saveLink () {
         this.setState({ error: '' })
-        const { title, url, note, category } = this.state;            
-        if (this.props.match.params.linkId) {
+        const { title, url, note, category } = this.state; 
+        const { linkId } = this.props.match.params;
+        if (linkId) {
             console.log('UPDATING LINK');
+            this.props.dispatch(editLink({ id: linkId, url, category, title, note }))
+                .then(() => {
+                    this.props.history.push('/my');
+                })
+                .catch(error => {
+                    console.log('ERROR SAVING LINK: ' + error);
+                })
             
-        } else {
-            console.log('ADDING NEW LINK');
+        } else {           
             this.props.dispatch(addLink({ title, url, note, category }))
                 .then(() => {
                     this.props.history.push('/my');

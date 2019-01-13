@@ -60,6 +60,32 @@ export const editLinkRequest = () => ({
     type: EDIT_LINK_REQUEST
 });
 
+export const editLink = ({ id, url, category, title, note }) => (dispatch, getState) => {
+    dispatch(editLinkRequest());
+    const authToken = getState().auth.authToken;    
+    return fetch(`${API_BASE_URL}/links/${id}`, {
+        method: 'PUT',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          }),
+          body: JSON.stringify({
+            url,
+            category,
+            title,
+            note
+          })
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(({data}) => dispatch(editLinkSuccess(data)))
+        .catch(err => {
+            console.error(err);
+            dispatch(editLinkError(err));
+        });
+}
+
 export const addLink = ({ url, category, title, note }) => (dispatch, getState) => {
     dispatch(editLinkRequest());
     const authToken = getState().auth.authToken;    
