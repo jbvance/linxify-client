@@ -57,8 +57,8 @@ export class App extends React.Component {
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/register" component={RegistrationPage} />
                 <Route exact path="/my" component={UserLinks} />
-                <Route exact path="/addlink" component={LinkForm} />
-                <Route path="/savelink/:linkId" component={LinkForm} />
+                <Route exact path="/links/new" component={LinkForm} />
+                <Route exact path="/links/edit/:linkId" component={LinkForm} />
             </div>
         );
     }

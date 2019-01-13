@@ -1,12 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const SideDrawer = (props) => (
-    <ul className="sidenav" id="mobile-nav">
-        <li><a href="#">Your Links</a></li>
-        <li><a href="#">Add Link</a></li>
-        <li><a href="#">Categories</a></li>
-        <li><a href="#">Add Category</a></li>
-    </ul>
-);
+export const SideDrawer = (props) => {
+    if (props.loggedIn) {
+        return (
+            <ul className="sidenav" id="mobile-nav">
+                <li><Link to="/my">Your Links</Link></li>
+                <li><Link to="/links/new">Add Link</Link></li>
+                <li><Link to="/categories">Categories</Link></li>
+                <li><Link to ="/categories/new"></Link></li>
+            </ul>
+        );
+    } else {
+        return (
+            <ul className="sidenav" id="mobile-nav">
+                <li><Link to="/register">Register</Link></li>                
+            </ul>
+        );
+    }
+    
+}   
 
-export default SideDrawer;
+const mapStateToProps = state => ({
+    loggedIn: state.auth.currentUser !== null
+});
+
+export default connect(mapStateToProps)(SideDrawer);

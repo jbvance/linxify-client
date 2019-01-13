@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import LoadingSpinner from '../loading-spinner';
 //import { fetchLinksRequest, fetchLinksSuccess } from '../../actions/links';
 import { fetchUserCategories } from '../../actions/categories';
-import { fetchUserLinks } from '../../actions/links';
+import { fetchUserLinks, editLinkRequest, editLinkSuccess, editLinkError, addLink, addLinkSuccess  } from '../../actions/links';
 
 import {API_BASE_URL} from '../../config';
 
@@ -24,35 +24,44 @@ export class LinkForm extends Component {
         this.saveLink = this.saveLink.bind(this);       
     }    
     
-    componentDidMount() {
-        this.props.dispatch(fetchUserLinks())
-        .then(() => {            
-            if (this.props.match.params.linkId) {
-                const linkIndex = this.props.links.findIndex(link => link._id === this.props.match.params.linkId);
-                if (linkIndex < 0) {                   
-                    this.setState({ error: `Unable to find link with id '${this.props.match.params.linkId}'`});
-                } else {                    
-                    const link = this.props.links[linkIndex]
-                    const { url, title, note } =  link;
-                    const category =  link.category._id; 
-                    this.setState({
-                        url,
-                        title,
-                        note,
-                        category
-                    })                     
-                }                
-            }  
-            return this.props.dispatch(fetchUserCategories());                
-        })
+    async componentDidMount() {
+        if (!this.props.links || this.props.links.length === 0) {
+            await this.props.dispatch(fetchUserLinks());
+        }
+        if (this.props.match.params.linkId) {
+            const linkIndex = this.props.links.findIndex(link => link._id === this.props.match.params.linkId);
+            if (linkIndex < 0) {                   
+                this.setState({ error: `Unable to find link with id '${this.props.match.params.linkId}'`});
+            } else {                    
+                const link = this.props.links[linkIndex]
+                const { url, title, note } =  link;
+                const category =  link.category._id; 
+                this.setState({
+                    url,
+                    title,
+                    note,
+                    category
+                })                     
+            }                
+        }  
+        return this.props.dispatch(fetchUserCategories());                
     }
 
     saveLink () {
+        this.setState({ error: '' })
         const { title, url, note, category } = this.state;            
         if (this.props.match.params.linkId) {
             console.log('UPDATING LINK');
+            
         } else {
             console.log('ADDING NEW LINK');
+            this.props.dispatch(addLink({ title, url, note, category }))
+                .then(() => {
+                    this.props.history.push('/my');
+                })
+                .catch(error => {
+                    console.log('ERROR SAVING LINK: ' + error);
+                })
         }
     };
 
@@ -93,6 +102,7 @@ export class LinkForm extends Component {
     }
 
     render() {
+        const { addEditLinkError } = this.props;
         if (this.props.linksLoading) {
             return <LoadingSpinner />
         }    
@@ -103,6 +113,11 @@ export class LinkForm extends Component {
                     <p>Error: {this.state.error}</p>
                 </div>
             
+            }
+            {addEditLinkError &&
+                <div className="col s12 alert alert-danger">
+                    <p>Error: {addEditLinkError.message}</p>
+                </div>
             }
             <form className="col s12" onSubmit={this.onSubmit}>
                 <div className="row">
@@ -166,7 +181,7 @@ const mapStateToProps = state => ({
     categoriesLoading: state.categories.loading,
     links: state.userLinks.links,
     linksLoading: state.userLinks.loading,
-
+    addEditLinkError: state.userLinks.error
 });
 
 export default connect(mapStateToProps)(LinkForm);

@@ -8,6 +8,7 @@ export const FETCH_LINKS_ERROR = 'link_errror';
 export const EDIT_LINK_REQUEST = 'edit_link_request';
 export const EDIT_LINK_ERROR = 'edit_link_error';
 export const EDIT_LINK_SUCCESS = 'edit_link_success';
+export const ADD_LINK_SUCCESS = 'add_link_success';
 
 
 export const fetchUserLinks = () => (dispatch, getState) => {
@@ -47,7 +48,7 @@ export const fetchLinksRequest = () => {
 
 export const editLinkSuccess = data => ({
     type: EDIT_LINK_SUCCESS,
-    data: true
+    data
 });
 
 export const editLinkError = error => ({
@@ -58,3 +59,34 @@ export const editLinkError = error => ({
 export const editLinkRequest = () => ({
     type: EDIT_LINK_REQUEST
 });
+
+export const addLink = ({ url, category, title, note }) => (dispatch, getState) => {
+    dispatch(editLinkRequest());
+    const authToken = getState().auth.authToken;    
+    return fetch(`${API_BASE_URL}/links`, {
+        method: 'POST',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          }),
+          body: JSON.stringify({
+            url,
+            category,
+            title,
+            note
+          })
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(({data}) => dispatch(addLinkSuccess(data)))
+        .catch(err => {
+            console.error(err);
+            dispatch(editLinkError(err));
+        });
+}
+
+export const addLinkSuccess = data => ({
+    type: ADD_LINK_SUCCESS,
+    data
+})

@@ -34,7 +34,7 @@ export class UserLinks extends Component {
         if (this.props.loading) {
             return <LoadingSpinner />
         } else if (this.props.error) {
-            return <div>ERROR OCCURRED: {this.props.error}</div>
+            return <div>ERROR OCCURRED: {this.props.error.message}</div>
         }
         return (           
             <div>
