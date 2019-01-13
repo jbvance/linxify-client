@@ -3,6 +3,8 @@ import {connect} from 'react-redux';
 import {Route, withRouter} from 'react-router-dom';
 
 import HeaderBar from './header-bar';
+import Toolbar from './toolbar';
+import SideDrawer from './side-drawer';
 import LandingPage from './landing-page';
 import Dashboard from './dashboard';
 import RegistrationPage from './registration-page';
@@ -48,8 +50,9 @@ export class App extends React.Component {
 
     render() {
         return (
-            <div className="app">
-                <HeaderBar />
+            <div>
+                <Toolbar /> 
+                <SideDrawer />              
                 <Route exact path="/" component={LandingPage} />
                 <Route exact path="/dashboard" component={Dashboard} />
                 <Route exact path="/register" component={RegistrationPage} />
