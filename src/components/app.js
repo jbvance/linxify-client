@@ -9,8 +9,14 @@ import RegistrationPage from './registration-page';
 import UserLinks from './user-links/user-links';
 import LinkForm from './link-form/link-form';
 import {refreshAuthToken} from '../actions/auth';
+import { fetchUserLinks } from '../actions/links';
 
 export class App extends React.Component {
+
+    componentDidMount() {
+        this.props.dispatch(fetchUserLinks());
+    }
+
     componentDidUpdate(prevProps) {
         if (!prevProps.loggedIn && this.props.loggedIn) {
             // When we are logged in, refresh the auth token periodically

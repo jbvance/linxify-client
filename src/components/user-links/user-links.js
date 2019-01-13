@@ -19,7 +19,7 @@ export class UserLinks extends Component {
             const favIcon = link.favIcon || '/images/default-icon.png';
             return (
                 <div className="link-row" key={link._id}>
-                    <div className="favicon"><img src={favIcon} /></div>
+                    <div className="favicon"><img src={favIcon} alt={title}/></div>
                     <div className="url-text"><a href={link.url}>{title}</a></div>
                     <div className="link-row__button-row">
                         <button className="btn btn-primary link-row__button">Edit</button>

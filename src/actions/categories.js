@@ -1,4 +1,3 @@
-'use strict';
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from './utils';
 
@@ -22,8 +21,7 @@ export const fetchUserCategories = () => (dispatch, getState) => {
         })
         .then(res => res.json())
         .then(resJson => {               
-            const sortedCategories = resJson.data.sort((a, b) => a.name < b.name ? -1 : (a.name > b.name) ? 1 : 0); 
-            console.log('CATEGORIES DATA', sortedCategories);             
+            const sortedCategories = resJson.data.sort((a, b) => a.name < b.name ? -1 : (a.name > b.name) ? 1 : 0);                        
            dispatch(fetchCategoriesSuccess({ data: sortedCategories }));
         })
         .catch(error => {

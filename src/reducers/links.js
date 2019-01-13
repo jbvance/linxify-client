@@ -15,10 +15,9 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {    
     switch(action.type) {
-        case FETCH_LINKS_REQUEST:
-        console.log('loading')
+        case FETCH_LINKS_REQUEST:            
             return Object.assign({}, state, { loading: true });
-        case FETCH_LINKS_SUCCESS:            
+        case FETCH_LINKS_SUCCESS:                      
             return Object.assign({}, state, { 
                 loading: false,
                 links: action.data
