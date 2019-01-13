@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import { Link } from 'react-router-dom';
 import requiresLogin from '../requires-login';
 import {fetchUserLinks} from '../../actions/links';
 import LoadingSpinner from '../loading-spinner'
@@ -8,12 +9,7 @@ import './user-links.css';
 
 export class UserLinks extends Component {
 
-    componentDidMount() {
-        this.props.dispatch(fetchUserLinks());
-    }
-
     renderLinks() {
-
         return this.props.userLinks.links.map(link => {
             const title = link.title || link.url;
             const favIcon = link.favIcon || '/images/default-icon.png';
@@ -22,7 +18,7 @@ export class UserLinks extends Component {
                     <div className="favicon"><img src={favIcon} alt={title}/></div>
                     <div className="url-text"><a href={link.url}>{title}</a></div>
                     <div className="link-row__button-row">
-                        <button className="btn btn-primary link-row__button">Edit</button>
+                        <Link to={{ pathname: `/links/edit/${link._id}` }} className="btn btn-primary link-row__button">Edit</Link>
                         <button className="btn btn-primary link-row__button">Delete</button>
                     </div>
                 </div>

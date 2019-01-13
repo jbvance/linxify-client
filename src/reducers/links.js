@@ -40,9 +40,13 @@ export default function reducer(state = initialState, action) {
                 error: action.error
             })
         case EDIT_LINK_SUCCESS:
+            console.log('DATA', action.data);
             return Object.assign({}, state, {
                 loading: false,
-                error: null
+                error: null,
+                links: state.links.map(link => {
+                    return action.data._id !== link._id ? link :{...link, ...action.data};
+                })
             });
         case ADD_LINK_SUCCESS:
             return Object.assign({}, state, {

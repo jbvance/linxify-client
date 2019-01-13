@@ -16,7 +16,10 @@ import { fetchUserLinks } from '../actions/links';
 export class App extends React.Component {
 
     componentDidMount() {
-        this.props.dispatch(fetchUserLinks());
+        if (!this.props.links || this.props.links.length === 0) {
+            console.log('getting links');
+            this.props.dispatch(fetchUserLinks());
+        }
     }
 
     componentDidUpdate(prevProps) {
@@ -66,7 +69,8 @@ export class App extends React.Component {
 
 const mapStateToProps = state => ({
     hasAuthToken: state.auth.authToken !== null,
-    loggedIn: state.auth.currentUser !== null
+    loggedIn: state.auth.currentUser !== null,
+    links: state.userLinks.links
 });
 
 // Deal with update blocking - https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking

@@ -25,9 +25,9 @@ export class LinkForm extends Component {
     }    
     
     async componentDidMount() {
-        if (!this.props.links || this.props.links.length === 0) {
-            await this.props.dispatch(fetchUserLinks());
-        }
+        // if (!this.props.links || this.props.links.length === 0) {
+        //     await this.props.dispatch(fetchUserLinks());
+        // }
         if (this.props.match.params.linkId) {
             const linkIndex = this.props.links.findIndex(link => link._id === this.props.match.params.linkId);
             if (linkIndex < 0) {                   
@@ -35,7 +35,7 @@ export class LinkForm extends Component {
             } else {                    
                 const link = this.props.links[linkIndex]
                 const { url, title, note } =  link;
-                const category =  link.category._id; 
+                const category =  link.category._id || link.category; 
                 this.setState({
                     url,
                     title,
@@ -51,8 +51,7 @@ export class LinkForm extends Component {
         this.setState({ error: '' })
         const { title, url, note, category } = this.state; 
         const { linkId } = this.props.match.params;
-        if (linkId) {
-            console.log('UPDATING LINK');
+        if (linkId) {            
             this.props.dispatch(editLink({ id: linkId, url, category, title, note }))
                 .then(() => {
                     this.props.history.push('/my');
@@ -153,7 +152,7 @@ export class LinkForm extends Component {
                     <div className="input-field col s12">
                         <textarea id="note" name="note"
                             onChange={this.handleChange} 
-                            value={this.state.note} 
+                            value={this.state.note || ''} 
                             className="materialize-textarea">
                         </textarea>
                         <label htmlFor="note" className="active">Note</label>                
