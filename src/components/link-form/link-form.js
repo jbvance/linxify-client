@@ -128,7 +128,7 @@ export class LinkForm extends Component {
                             required 
                             className="validate" 
                         />
-                        <label htmlFor="title">Title</label>
+                        <label htmlFor="title" className="active">Title</label>
                     </div>
                 </div>
                 <div className="row">
@@ -139,7 +139,7 @@ export class LinkForm extends Component {
                             required 
                             className="validate"  
                         />
-                        <label htmlFor="url">Url</label>
+                        <label htmlFor="url" className="active">Url</label>
                     </div>
                 </div>
                 <div className="row">
@@ -149,7 +149,7 @@ export class LinkForm extends Component {
                             value={this.state.note} 
                             className="materialize-textarea">
                         </textarea>
-                        <label htmlFor="note">Note</label>                
+                        <label htmlFor="note" className="active">Note</label>                
                     </div>
                 </div>
                 {this.props.categoriesLoading 
