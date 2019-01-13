@@ -9,6 +9,11 @@ import './user-links.css';
 
 export class UserLinks extends Component {
 
+    deleteLink(id) {
+        if (!window.confirm(`Are you sure you want to delete this link?`)) return;
+        
+    }
+
     renderLinks() {
         return this.props.userLinks.links.map(link => {
             const title = link.title || link.url;
@@ -19,7 +24,7 @@ export class UserLinks extends Component {
                     <div className="url-text"><a href={link.url}>{title}</a></div>
                     <div className="link-row__button-row">
                         <Link to={{ pathname: `/links/edit/${link._id}` }} className="btn btn-primary link-row__button">Edit</Link>
-                        <button className="btn btn-primary link-row__button">Delete</button>
+                        <button className="btn btn-primary link-row__button" onClick={() => this.deleteLink(link._id)}>Delete</button>
                     </div>
                 </div>
             )
