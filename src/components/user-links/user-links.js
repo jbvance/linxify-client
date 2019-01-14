@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom';
 import requiresLogin from '../requires-login';
-import {fetchUserLinks} from '../../actions/links';
+import { deleteLink } from '../../actions/links';
 import LoadingSpinner from '../loading-spinner'
 
 import './user-links.css';
@@ -11,7 +11,8 @@ export class UserLinks extends Component {
 
     deleteLink(id) {
         if (!window.confirm(`Are you sure you want to delete this link?`)) return;
-        
+        console.log('ID', id);
+        this.props.dispatch(deleteLink(id));
     }
 
     renderLinks() {

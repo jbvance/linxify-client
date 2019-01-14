@@ -9,6 +9,7 @@ export const EDIT_LINK_REQUEST = 'edit_link_request';
 export const EDIT_LINK_ERROR = 'edit_link_error';
 export const EDIT_LINK_SUCCESS = 'edit_link_success';
 export const ADD_LINK_SUCCESS = 'add_link_success';
+export const DELETE_LINK_SUCCESS = 'delete_link_success';
 
 
 export const fetchUserLinks = () => (dispatch, getState) => {
@@ -112,7 +113,35 @@ export const addLink = ({ url, category, title, note }) => (dispatch, getState) 
         });
 }
 
+export const deleteLink = (id) => (dispatch, getState) => {
+    dispatch(editLinkRequest());
+    const authToken = getState().auth.authToken;  
+    fetch(`${API_BASE_URL}/links/${id}`, {
+        method: 'DELETE',
+        headers: new Headers({
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${authToken}`
+        }),
+      })   
+        .then(res => {
+            if (res.status !== 204) {
+                throw new Error ('Unable to delete link');
+            }
+            dispatch(deleteLinkSuccess(id));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(editLinkError(err));
+        });
+}
+
 export const addLinkSuccess = data => ({
     type: ADD_LINK_SUCCESS,
     data
+})
+
+export const deleteLinkSuccess = id => ({
+    type: DELETE_LINK_SUCCESS,
+    id
 })

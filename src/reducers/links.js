@@ -5,7 +5,8 @@ import {
     EDIT_LINK_REQUEST,
     EDIT_LINK_ERROR,
     EDIT_LINK_SUCCESS,
-    ADD_LINK_SUCCESS
+    ADD_LINK_SUCCESS,
+    DELETE_LINK_SUCCESS
 } from '../actions/links';
 
 const initialState = {
@@ -54,6 +55,16 @@ export default function reducer(state = initialState, action) {
                 error: null,
                 links: [action.data, ...state.links]
             });
+        case DELETE_LINK_SUCCESS:
+            const index = state.links.findIndex(item => item._id === action.id);
+            console.log('index to delete', index);
+            return Object.assign({}, state, {
+                loading: false,
+                error: null,
+                links: [...state.links.slice(0, index), ...state.links.slice(index + 1)]
+
+            })
+        
         default:
             return state;
     }        
