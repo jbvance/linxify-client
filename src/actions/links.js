@@ -10,7 +10,8 @@ export const EDIT_LINK_ERROR = 'edit_link_error';
 export const EDIT_LINK_SUCCESS = 'edit_link_success';
 export const ADD_LINK_SUCCESS = 'add_link_success';
 export const DELETE_LINK_SUCCESS = 'delete_link_success';
-
+export const SET_LINK_TO_SAVE = 'set_link_to_save';
+export const CLEAR_LINK_ERROR = 'clear_link_error';
 
 export const fetchUserLinks = () => (dispatch, getState) => {
     dispatch(fetchLinksRequest());
@@ -60,6 +61,16 @@ export const editLinkError = error => ({
 export const editLinkRequest = () => ({
     type: EDIT_LINK_REQUEST
 });
+
+export const setLinkToSave = (link) => {
+    return {
+        type: SET_LINK_TO_SAVE,
+        link: { 
+            url: link.url,
+            category: link.category
+        }
+    }   
+};
 
 export const editLink = ({ id, url, category, title, note }) => (dispatch, getState) => {
     dispatch(editLinkRequest());
@@ -113,6 +124,37 @@ export const addLink = ({ url, category, title, note }) => (dispatch, getState) 
         });
 }
 
+export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => (dispatch, getState) => {
+    console.log('URL', url);
+    dispatch(editLinkRequest());    
+    const authToken = getState().auth.authToken;    
+    return fetch(`${API_BASE_URL}/links`, {
+        method: 'POST',
+        headers: new Headers({
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${authToken}`
+          }),
+          body: JSON.stringify({
+            url,
+            category,
+            title,
+            note
+          })
+    })
+        .then(res => normalizeResponseErrors(res))
+        .then(res => res.json())
+        .then(({data}) => {
+            dispatch(addLinkSuccess(data));
+            dispatch(setLinkToSave( {url: null, category: null} ));
+        })
+        .catch(err => {
+            console.error(err);
+            dispatch(editLinkError(err));
+            dispatch(setLinkToSave({url: null, category: null}));
+        });
+}
+
 export const deleteLink = (id) => (dispatch, getState) => {
     dispatch(editLinkRequest());
     const authToken = getState().auth.authToken;  
@@ -145,3 +187,9 @@ export const deleteLinkSuccess = id => ({
     type: DELETE_LINK_SUCCESS,
     id
 })
+
+export const clearLinkError = () => ({
+    type: CLEAR_LINK_ERROR
+});
+
+

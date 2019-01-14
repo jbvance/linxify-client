@@ -40,3 +40,25 @@ textarea {height: 6rem;}
   border: 1px solid transparent;
   border-radius: .25rem;
 }
+
+.logo {
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif;
+  letter-spacing: .5em;
+}
+
+.top-nav {
+  background-color: rgb(92,184,92);
+}
+
+.link-row__button, .btn-submit, .link-row__button:focus, .btn-submit:focus {
+  background-color: rgb(92,184,92);
+}
+
+.link-row__button:hover, .btn-submit:hover {
+  background-color: rgb(76, 155, 76);
+}
+
+.link-form {
+  margin-top: 50px;
+}

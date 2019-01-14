@@ -1,19 +1,36 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; 
 import requiresLogin from '../requires-login';
-import { deleteLink } from '../../actions/links';
-import LoadingSpinner from '../loading-spinner'
+import { deleteLink, fetchUserLinks, addLinkFromAddressBar, clearLinkError } from '../../actions/links';
+import LoadingSpinner from '../loading-spinner/loading-spinner'
 
 import './user-links.css';
 
 export class UserLinks extends Component {
 
-    deleteLink(id) {
-        if (!window.confirm(`Are you sure you want to delete this link?`)) return;
-        console.log('ID', id);
-        this.props.dispatch(deleteLink(id));
+    async componentDidMount() {   
+        
+        this.props.dispatch(clearLinkError());
+        
+        // first, save a new link if we got here after linkToSave has been set in state 
+        const { linkToSave } = this.props;
+        if (linkToSave && linkToSave.url) {           
+            await this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }));
+        }
+
+        if (this.props.error) return;
+
+        //load links if they have not previously been loaded
+        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
+            await this.props.dispatch(fetchUserLinks());
+        }
     }
+
+    deleteLink(id) {
+        if (!window.confirm(`Are you sure you want to delete this link?`)) return;       
+        this.props.dispatch(deleteLink(id))       
+    }    
 
     renderLinks() {
         return this.props.userLinks.links.map(link => {
@@ -38,9 +55,8 @@ export class UserLinks extends Component {
         } else if (this.props.error) {
             return <div>ERROR OCCURRED: {this.props.error.message}</div>
         }
-        return (           
-            <div>
-                <h1>My Links</h1>
+        return (                  
+            <div>                                  
                 <section className="container links-container">            
                     {this.renderLinks()}
                 </section>
@@ -51,6 +67,8 @@ export class UserLinks extends Component {
     
 const mapStateToProps = (state, props) => ({
     userLinks: state.userLinks,
+    linkToSave: state.userLinks.linkToSave,
+    loggedIn: state.auth.currentUser !== null,
     loading: state.userLinks.loading,
     error: state.userLinks.error
 });

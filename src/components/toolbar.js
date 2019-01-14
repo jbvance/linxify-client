@@ -6,8 +6,8 @@ export const Toolbar = (props) => {
     if (props.loggedIn) {
         return (
             <nav>
-                <div className="nav-wrapper">
-                <Link to="/" className="brand-logo">Logo</Link>
+                <div className="nav-wrapper top-nav">
+                <Link to="/" className="brand-logo logo">Linxify</Link>
                 <a href="#" className="sidenav-trigger" data-target="mobile-nav">
                     <i className="material-icons">menu</i>
                 </a>

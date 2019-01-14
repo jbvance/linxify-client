@@ -6,17 +6,24 @@ import {
     EDIT_LINK_ERROR,
     EDIT_LINK_SUCCESS,
     ADD_LINK_SUCCESS,
-    DELETE_LINK_SUCCESS
+    DELETE_LINK_SUCCESS,
+    SET_LINK_TO_SAVE,
+    CLEAR_LINK_ERROR
 } from '../actions/links';
 
 const initialState = {
     links: [],
     loading: false,
-    error: null
+    error: null,
+    linkToSave: null
 };
 
 export default function reducer(state = initialState, action) {    
     switch(action.type) {
+        case SET_LINK_TO_SAVE:
+            return Object.assign({}, state, {
+                linkToSave: action.link
+            });
         case FETCH_LINKS_REQUEST:            
             return Object.assign({}, state, { 
                 loading: true,
@@ -39,6 +46,11 @@ export default function reducer(state = initialState, action) {
             return Object.assign({}, state, {
                 loading: false,
                 error: action.error
+            })
+            case CLEAR_LINK_ERROR:            
+            return Object.assign({}, state, {
+                loading: false,
+                error: null
             })
         case EDIT_LINK_SUCCESS:
             console.log('DATA', action.data);

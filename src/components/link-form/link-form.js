@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import LoadingSpinner from '../loading-spinner';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
+import requiresLogin from '../requires-login';
 //import { fetchLinksRequest, fetchLinksSuccess } from '../../actions/links';
 import { fetchUserCategories } from '../../actions/categories';
-import { fetchUserLinks, editLinkRequest, editLinkSuccess, editLinkError, editLink, addLink, addLinkSuccess  } from '../../actions/links';
+import { fetchUserLinks, editLinkRequest, editLinkSuccess, editLinkError, editLink, addLink, addLinkSuccess, clearLinkError  } from '../../actions/links';
 
 import {API_BASE_URL} from '../../config';
 
@@ -24,10 +25,13 @@ export class LinkForm extends Component {
         this.saveLink = this.saveLink.bind(this);       
     }    
     
-    async componentDidMount() {
-        // if (!this.props.links || this.props.links.length === 0) {
-        //     await this.props.dispatch(fetchUserLinks());
-        // }
+    async componentDidMount() {                
+
+        this.props.dispatch(clearLinkError());
+        //load links if they have not previously been loaded
+        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
+            await this.props.dispatch(fetchUserLinks());
+        }
         if (this.props.match.params.linkId) {
             const linkIndex = this.props.links.findIndex(link => link._id === this.props.match.params.linkId);
             if (linkIndex < 0) {                   
@@ -97,7 +101,7 @@ export class LinkForm extends Component {
     onSubmit(event) {
         event.preventDefault();
         this.setState({error: ''});
-        const { title, url, note, category } = this.state;        
+        const { url } = this.state;        
 
         //exit with error if url field is not a valid url
         if (!this.validUrl(url)) {
@@ -107,7 +111,8 @@ export class LinkForm extends Component {
         this.saveLink();                
     }
 
-    render() {
+    render() {        
+
         const { addEditLinkError } = this.props;
         if (this.props.linksLoading) {
             return <LoadingSpinner />
@@ -125,7 +130,7 @@ export class LinkForm extends Component {
                     <p>Error: {addEditLinkError.message}</p>
                 </div>
             }
-            <form className="col s12" onSubmit={this.onSubmit}>
+            <form className="col s12 link-form" onSubmit={this.onSubmit}>
                 <div className="row">
                     <div className="input-field col s12 ">
                         <input id="title" name="title" type="text" 
@@ -172,7 +177,7 @@ export class LinkForm extends Component {
                 }
                 
                 <div className="row">
-                    <button type="submit" className="waves-effect waves-light btn">Submit</button>
+                    <button type="submit" className="btn btn-submit">Submit</button>
                 </div>
             </form>
             
@@ -184,10 +189,11 @@ export class LinkForm extends Component {
 const mapStateToProps = state => ({            
     authToken: state.auth.authToken,
     categories: state.categories.categories,
+    loggedIn: state.auth.currentUser !== null,
     categoriesLoading: state.categories.loading,
     links: state.userLinks.links,
     linksLoading: state.userLinks.loading,
     addEditLinkError: state.userLinks.error
 });
 
-export default connect(mapStateToProps)(LinkForm);
+export default requiresLogin()(connect(mapStateToProps)(LinkForm));

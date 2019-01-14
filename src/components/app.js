@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {Route, withRouter} from 'react-router-dom';
+import {Route, withRouter, Switch} from 'react-router-dom';
 
 import HeaderBar from './header-bar';
 import Toolbar from './toolbar';
@@ -9,16 +9,17 @@ import LandingPage from './landing-page';
 import Dashboard from './dashboard';
 import RegistrationPage from './registration-page';
 import UserLinks from './user-links/user-links';
+import NoMatch from './no-match';
 import LinkForm from './link-form/link-form';
 import {refreshAuthToken} from '../actions/auth';
 import { fetchUserLinks } from '../actions/links';
 
 export class App extends React.Component {
 
-    componentDidMount() {
-        if (!this.props.links || this.props.links.length === 0) {
-            console.log('getting links');
-            this.props.dispatch(fetchUserLinks());
+    async componentDidMount() { 
+        console.log('mounted', this.props.loggedIn);      
+        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
+            await this.props.dispatch(fetchUserLinks());
         }
     }
 
@@ -55,13 +56,16 @@ export class App extends React.Component {
         return (
             <div>
                 <Toolbar /> 
-                <SideDrawer />              
-                <Route exact path="/" component={LandingPage} />
-                <Route exact path="/dashboard" component={Dashboard} />
-                <Route exact path="/register" component={RegistrationPage} />
-                <Route exact path="/my" component={UserLinks} />
-                <Route exact path="/links/new" component={LinkForm} />
-                <Route exact path="/links/edit/:linkId" component={LinkForm} />
+                <SideDrawer /> 
+                <Switch>
+                    <Route exact path="/" component={LandingPage} />
+                    <Route exact path="/dashboard" component={Dashboard} />
+                    <Route exact path="/register" component={RegistrationPage} />
+                    <Route exact path="/my" component={UserLinks} />
+                    <Route exact path="/links/new" component={LinkForm} />
+                    <Route exact path="/links/edit/:linkId" component={LinkForm} />
+                    <Route component={NoMatch} />
+                </Switch>                             
             </div>
         );
     }
