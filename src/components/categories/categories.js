@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
-import { deleteCategory } from '../../actions/categories';
+import { deleteCategory, editCategoryError } from '../../actions/categories';
+import editCategory from '../category-form/edit-category';
 
 
 const Categories = (props) => {   
@@ -17,7 +18,8 @@ const Categories = (props) => {
     
     const deleteUserCategory =  (id, name) => {
         if (!window.confirm(`Delete category "${name}"?`)) return;  
-            props.dispatch(deleteCategory(id));                                                                                
+        props.dispatch(deleteCategory(id));        
+                                                                                                  
     }
     
     const renderCategories = (categories) => {
@@ -43,9 +45,11 @@ const Categories = (props) => {
     }
 
     if (props.error) {
-        {toast.error(props.error.error.message, {
+        {
+            toast.error(props.error.error.message, {
             position: toast.POSITION.BOTTOM_CENTER
-          });}
+          });          
+        }
     }
 
     

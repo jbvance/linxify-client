@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import CategoryForm from './category-form';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { editCategory } from '../../actions/categories';
+import { editCategory, editCategoryError } from '../../actions/categories';
 
 
 
@@ -26,7 +26,8 @@ export class EditCategory extends Component {
             name
         })
 
-        console.log('name', name);
+       // clear out any error from a previous page's error(s) regarding categories
+       this.props.dispatch(editCategoryError(null));
     }
 
     changeName(name) {
@@ -68,7 +69,7 @@ export class EditCategory extends Component {
         if (error) {
             return (
                 <div className="alert alert-danger">
-                    <p>{error.message}</p>
+                    <p>{error.error.message}</p>
                 </div>
             )
         }

@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import CategoryForm from './category-form';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { addCategory } from '../../actions/categories';
+import { addCategory, editCategoryError } from '../../actions/categories';
 
 
 
@@ -17,6 +17,11 @@ export class AddCategory extends Component {
         this.state = {
             name: ''
         }
+    }
+
+    componentDidMount() {
+        // clear out any error from a previous page's error(s) regarding categories
+       this.props.dispatch(editCategoryError(null));
     }
     
     changeName(name) {

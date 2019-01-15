@@ -38,8 +38,7 @@ export default function reducer(state = initialState, action) {
                 loading: true,
                 error: null
             });
-        case EDIT_CATEGORY_ERROR:
-            console.log('ERROR IN REDUCER');
+        case EDIT_CATEGORY_ERROR:           
             return Object.assign({}, state, {
                 loading: false,
                 error: action.error
