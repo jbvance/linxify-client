@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import {connect} from 'react-redux';
-import { Link } from 'react-router-dom'; 
+import {connect} from 'react-redux'
 import requiresLogin from '../requires-login';
 import LinkRow from '../link-row/link-row';
 import SearchBar from '../search-bar/search-bar';

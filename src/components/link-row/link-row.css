@@ -20,10 +20,7 @@
     margin: 0 10px 0 10px;
 } 
 
-.url-text a {
-    text-decoration: none;
-    color: rgba(0,0,0,0.7);
-}
+
 
 .link-row__button-row {
     display: flex;

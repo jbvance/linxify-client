@@ -15,7 +15,7 @@ export const Toolbar = (props) => {
                     <li><Link to="/my">Your Links</Link></li>
                     <li><Link to="/links/new">Add Link</Link></li>
                     <li><Link to="/categories">Categories</Link></li>
-                    <li><Link to ="/categories/new"></Link></li>
+                    <li><Link to ="/categories/new">Add category</Link></li>                   
                 </ul>
                 </div>
             </nav>

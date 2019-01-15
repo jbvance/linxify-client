@@ -1,6 +1,9 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Route, withRouter, Switch} from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import HeaderBar from './header-bar';
 import Toolbar from './toolbar';
@@ -11,25 +14,29 @@ import RegistrationPage from './registration-page';
 import UserLinks from './user-links/user-links';
 import NoMatch from './no-match';
 import LinkForm from './link-form/link-form';
+import Categories from './categories/categories';
+import EditCategory from './category-form/edit-category';
+import AddCategory from './category-form/add-category';
 import {refreshAuthToken} from '../actions/auth';
 import { fetchUserLinks } from '../actions/links';
+import { fetchUserCategories } from '../actions/categories';
 
 export class App extends React.Component {
-
-    async componentDidMount() { 
-        console.log('mounted', this.props.loggedIn);      
-        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
-            await this.props.dispatch(fetchUserLinks());
-        }
-    }
-
-    componentDidUpdate(prevProps) {
+    
+    async componentDidUpdate(prevProps) {
         if (!prevProps.loggedIn && this.props.loggedIn) {
             // When we are logged in, refresh the auth token periodically
             this.startPeriodicRefresh();
         } else if (prevProps.loggedIn && !this.props.loggedIn) {
             // Stop refreshing when we log out
             this.stopPeriodicRefresh();
+        }
+
+        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
+            await this.props.dispatch(fetchUserLinks());
+        }
+        if ( this.props.loggedIn && (!this.props.categories || this.props.categories.length === 0)) {            
+            await this.props.dispatch(fetchUserCategories());
         }
     }
 
@@ -55,6 +62,7 @@ export class App extends React.Component {
     render() {
         return (
             <div>
+                <ToastContainer />
                 <Toolbar /> 
                 <SideDrawer /> 
                 <Switch>
@@ -64,6 +72,9 @@ export class App extends React.Component {
                     <Route exact path="/my" component={UserLinks} />
                     <Route exact path="/links/new" component={LinkForm} />
                     <Route exact path="/links/edit/:linkId" component={LinkForm} />
+                    <Route exact path="/categories" component={Categories} />
+                    <Route exact path="/categories/edit/:categoryId" component={EditCategory} />
+                    <Route exact path="/categories/new" component={AddCategory} />                   
                     <Route component={NoMatch} />
                 </Switch>                             
             </div>
@@ -74,7 +85,8 @@ export class App extends React.Component {
 const mapStateToProps = state => ({
     hasAuthToken: state.auth.authToken !== null,
     loggedIn: state.auth.currentUser !== null,
-    links: state.userLinks.links
+    links: state.userLinks.links,
+    categories: state.categories.categories
 });
 
 // Deal with update blocking - https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking

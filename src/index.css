@@ -25,6 +25,11 @@ nav .brand-logo {
   align-content: center;
 }
 
+.container h2 {
+  text-align: center;
+  margin: 30px;
+}
+
 textarea {height: 6rem;}
 
 .alert-danger {
@@ -61,4 +66,9 @@ textarea {height: 6rem;}
 
 .link-form {
   margin-top: 50px;
+}
+
+.url-text a {
+  text-decoration: none;
+  color: rgba(0,0,0,0.7);
 }

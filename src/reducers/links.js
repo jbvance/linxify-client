@@ -68,8 +68,7 @@ export default function reducer(state = initialState, action) {
                 links: [action.data, ...state.links]
             });
         case DELETE_LINK_SUCCESS:
-            const index = state.links.findIndex(item => item._id === action.id);
-            console.log('index to delete', index);
+            const index = state.links.findIndex(item => item._id === action.id);            
             return Object.assign({}, state, {
                 loading: false,
                 error: null,
