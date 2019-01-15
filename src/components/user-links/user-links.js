@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import { Link } from 'react-router-dom'; 
 import requiresLogin from '../requires-login';
+import LinkRow from '../link-row/link-row';
+import SearchBar from '../search-bar/search-bar';
 import { deleteLink, fetchUserLinks, addLinkFromAddressBar, clearLinkError } from '../../actions/links';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
 
@@ -33,20 +35,12 @@ export class UserLinks extends Component {
     }    
 
     renderLinks() {
-        return this.props.userLinks.links.map(link => {
-            const title = link.title || link.url;
-            const favIcon = link.favIcon || '/images/default-icon.png';
-            return (
-                <div className="link-row" key={link._id}>
-                    <div className="favicon"><img src={favIcon} alt={title}/></div>
-                    <div className="url-text"><a href={link.url}>{title}</a></div>
-                    <div className="link-row__button-row">
-                        <Link to={{ pathname: `/links/edit/${link._id}` }} className="btn btn-primary link-row__button">Edit</Link>
-                        <button className="btn btn-primary link-row__button" onClick={() => this.deleteLink(link._id)}>Delete</button>
-                    </div>
-                </div>
-            )
-        });       
+        console.log('rendering', this.props.userLinks.links.length);
+        return this.props.userLinks.links.map(link => <LinkRow link={link} />);    
+    }
+
+    FilterLinks(value) {
+        console.log('changed', value);
     }
 
     render() {
@@ -56,7 +50,8 @@ export class UserLinks extends Component {
             return <div>ERROR OCCURRED: {this.props.error.message}</div>
         }
         return (                  
-            <div>                                  
+            <div> 
+                <SearchBar onChange={this.FilterLinks}/>
                 <section className="container links-container">            
                     {this.renderLinks()}
                 </section>
