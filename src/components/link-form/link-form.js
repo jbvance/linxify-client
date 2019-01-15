@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import requiresLogin from '../requires-login';
 //import { fetchLinksRequest, fetchLinksSuccess } from '../../actions/links';
@@ -58,15 +59,24 @@ export class LinkForm extends Component {
         if (linkId) {            
             this.props.dispatch(editLink({ id: linkId, url, category, title, note }))
                 .then(() => {
+                    toast.success("Link saved successfully!", {
+                        position: toast.POSITION.TOP_CENTER
+                    }); 
                     this.props.history.push('/my');
                 })
                 .catch(error => {
-                    console.log('ERROR SAVING LINK: ' + error);
+                    toast.error(error.message, {
+                        position: toast.POSITION.TOP_CENTER
+                    }); 
+                    console.error('ERROR SAVING LINK: ' + error);
                 })
             
         } else {           
             this.props.dispatch(addLink({ title, url, note, category }))
                 .then(() => {
+                    toast.success("Link saved successfully!", {
+                        position: toast.POSITION.TOP_CENTER
+                    });
                     this.props.history.push('/my');
                 })
                 .catch(error => {
@@ -144,7 +154,7 @@ export class LinkForm extends Component {
                 </div>
                 <div className="row">
                     <div className="input-field col s12">
-                        <input id="url" name="url" type="text" 
+                        <input id="url" name="url" type="url" 
                             onChange={this.handleChange} 
                             value={this.state.url} 
                             required 

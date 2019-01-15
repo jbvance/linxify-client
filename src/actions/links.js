@@ -155,7 +155,7 @@ export const addLinkFromAddressBar = ({ url, category = null, title = null, note
         });
 }
 
-export const deleteLink = (id) => (dispatch, getState) => {
+export const deleteLink = (id) => async (dispatch, getState) => {
     dispatch(editLinkRequest());
     const authToken = getState().auth.authToken;  
     fetch(`${API_BASE_URL}/links/${id}`, {
