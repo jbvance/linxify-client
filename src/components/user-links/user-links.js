@@ -11,6 +11,17 @@ import './user-links.css';
 
 export class UserLinks extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            searchFilter: ''
+        }
+
+        this.deleteLink = this.deleteLink.bind(this);    
+        this.updateSearch = this.updateSearch.bind(this);    
+        this.checkSearch = this.checkSearch.bind(this);    
+    }
+
     async componentDidMount() {   
         
         this.props.dispatch(clearLinkError());
@@ -27,6 +38,8 @@ export class UserLinks extends Component {
         if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
             await this.props.dispatch(fetchUserLinks());
         }
+
+        this.setState({ links: this.props.userLinks.links});
     }
 
     deleteLink(id) {
@@ -34,16 +47,24 @@ export class UserLinks extends Component {
         this.props.dispatch(deleteLink(id))       
     }    
 
-    renderLinks() {
-        console.log('rendering', this.props.userLinks.links.length);
-        return this.props.userLinks.links.map(link => <LinkRow link={link} />);    
+    renderLinks() {        
+        return this.props.userLinks.links.map(link => <LinkRow key={link._id} link={link} deleteLink={this.deleteLink} />);    
     }
 
-    FilterLinks(value) {
-        console.log('changed', value);
+    updateSearch(value) {
+        console.log('changed', value); 
+        this.setState({ searchFilter: value }); 
     }
 
-    render() {
+    checkSearch(link) {
+        return link.title.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) !== -1 ||
+               link.url.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) !== -1 ||
+               (link.note && link.note.toLowerCase().indexOf(this.state.searchFilter.toLowerCase()) !== -1);
+    }
+
+    render() { 
+        let filteredLinks = this.props.userLinks.links.filter(this.checkSearch);
+
         if (this.props.loading) {
             return <LoadingSpinner />
         } else if (this.props.error) {
@@ -51,9 +72,9 @@ export class UserLinks extends Component {
         }
         return (                  
             <div> 
-                <SearchBar onChange={this.FilterLinks}/>
+                <SearchBar onChange={this.updateSearch}/>
                 <section className="container links-container">            
-                    {this.renderLinks()}
+                    {filteredLinks.map(link => <LinkRow key={link._id} link={link} deleteLink={this.deleteLink} />)}
                 </section>
             </div>
         );

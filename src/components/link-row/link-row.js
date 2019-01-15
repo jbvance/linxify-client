@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import './link-row.css';
 
-const LinkRow = ({ link }) => {
+const LinkRow = ({ link, deleteLink }) => {
     
     const title = link.title || link.url;
     const favIcon = link.favIcon || '/images/default-icon.png';
@@ -12,7 +12,7 @@ const LinkRow = ({ link }) => {
             <div className="url-text"><a href={link.url}>{title}</a></div>
             <div className="link-row__button-row">
                 <Link to={{ pathname: `/links/edit/${link._id}` }} className="btn btn-primary link-row__button">Edit</Link>
-                <button className="btn btn-primary link-row__button" onClick={() => this.deleteLink(link._id)}>Delete</button>
+                <button className="btn btn-primary link-row__button" onClick={() => deleteLink(link._id)}>Delete</button>
             </div>
         </div>
     )
