@@ -124,7 +124,7 @@ export const addLink = ({ url, category, title, note }) => (dispatch, getState) 
         });
 }
 
-export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => (dispatch, getState) => {
+export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => async (dispatch, getState) => {
     console.log('URL', url);
     dispatch(editLinkRequest());    
     const authToken = getState().auth.authToken;    

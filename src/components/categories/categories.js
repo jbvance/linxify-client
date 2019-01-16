@@ -32,7 +32,7 @@ const Categories = (props) => {
             return (
                 <div key={category._id} className="link-row"> 
                     <div className="url-text">
-                        <Link to="/">{category.name}</Link>
+                        <Link to={{ pathname: `/categories/${category._id}/links` }}>{category.name}</Link>
                     </div>                      
                     <div className="link-row__button-row">
                         <Link to={{ pathname: `/categories/edit/${category._id}` }} className="btn btn-primary link-row__button">Edit</Link>
