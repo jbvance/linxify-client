@@ -20,6 +20,8 @@ const CategoryForm = (props) => {
                             <input id="name" name="name" type="text"                            
                                 value={props.name} onChange={changeName}                             
                                 required 
+                                pattern=".*\S+.*" 
+                                title="This field cannot be blank"
                                 className="validate"
                             />
                             <label htmlFor="name" className="active">Category Name</label>

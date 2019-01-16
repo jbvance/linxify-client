@@ -56,7 +56,7 @@ export const editCategory = (id, name) => (dispatch, getState) => {
       })
 };
 
-export const addCategory = (name) => (dispatch, getState) => {
+export const addCategory = (name) =>  (dispatch, getState) => {
     const token = getState().auth.authToken;  
     dispatch(editCategoryRequest());   
     fetch(`${API_BASE_URL}/categories`, {

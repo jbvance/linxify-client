@@ -8,7 +8,10 @@ import { deleteCategory, editCategoryError } from '../../actions/categories';
 import editCategory from '../category-form/edit-category';
 
 
-const Categories = (props) => {   
+const Categories = (props) => {
+    
+    //clear any errors before rendering
+    props.dispatch(editCategoryError(null));
 
     const sortCategories = (a, b) => {
         const textA = a.name.toUpperCase();
@@ -47,7 +50,7 @@ const Categories = (props) => {
     if (props.error) {
         {
             toast.error(props.error.error.message, {
-            position: toast.POSITION.BOTTOM_CENTER
+            position: toast.POSITION.TOP_CENTER
           });          
         }
     }

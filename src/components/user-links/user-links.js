@@ -31,7 +31,7 @@ export class UserLinks extends Component {
             this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }));
         }
 
-        //if (this.props.error) return;
+        if (this.props.error) return;
 
         this.setState({ links: this.props.userLinks.links});
     }
@@ -62,7 +62,7 @@ export class UserLinks extends Component {
         if (this.props.loading) {
             return <LoadingSpinner />
         } else if (this.props.error) {
-            return <div>ERROR OCCURRED: {this.props.error.message}</div>
+           <div className="alert alert-danger">Error: {this.props.error.error.message}</div>
         }
         return (                  
             <div> 

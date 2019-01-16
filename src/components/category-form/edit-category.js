@@ -47,12 +47,12 @@ export class EditCategory extends Component {
 
         if (!this.props.categories.error) {
             toast.success("Category saved successfully!", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.TOP_CENTER
               });
         } else {
             console.error('ERROR SAVING CATEGORY', this.props.categories.error);
             toast.error("Unable to save category", {
-                position: toast.POSITION.BOTTOM_CENTER
+                position: toast.POSITION.TOP_CENTER
               });        
         }                            
     }   

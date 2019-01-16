@@ -29,39 +29,35 @@ export class AddCategory extends Component {
     }
    
     async submitAdd(){  
-                
+        
         const name = this.state.name;
-
-        await this.props.dispatch(addCategory(name));
-
-        if (!this.props.categories.error) {
-            toast.success("Category saved successfully!", {
-                position: toast.POSITION.BOTTOM_CENTER
-              });
-        } else {
-            console.error('ERROR SAVING CATEGORY', this.props.categories.error);
+        try {
+            await this.props.dispatch(addCategory(name));
+            if (!this.props.categories.error) {
+                toast.success("Category saved successfully!", {
+                    position: toast.POSITION.TOP_CENTER
+                  });
+            }
+        } catch(error) {
+            console.error('ERROR SAVING CATEGORY', error);
             toast.error("Unable to save category", {
-                position: toast.POSITION.BOTTOM_CENTER
-              });        
-        }                            
+                position: toast.POSITION.TOP_CENTER
+              });  
+        }                                                            
     }   
 
     render() {
 
-        if(this.props.categories.loading) {
-            console.log('loading');
+        if(this.props.categories.loading) {           
             return <LoadingSpinner />
         }                
 
         const { error } = this.props.categories;
-
-        if (error) {
-            return (
-                <div className="alert alert-danger">
-                    <p>{error.message}</p>
-                </div>
-            )
-        }
+        error && (
+            <div className="alert alert-danger">
+                <p>{error.message}</p>
+            </div> )      
+        
     
         return (
             <CategoryForm onChangeName={this.changeName} onSubmitForm={this.submitAdd}

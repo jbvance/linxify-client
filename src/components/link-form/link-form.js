@@ -146,7 +146,9 @@ export class LinkForm extends Component {
                         <input id="title" name="title" type="text" 
                             onChange={this.handleChange} 
                             value={this.state.title} 
-                            required 
+                            required
+                            pattern=".*\S+.*" 
+                            title="Title cannot be blank"
                             className="validate" 
                         />
                         <label htmlFor="title" className="active">Title</label>
@@ -157,7 +159,9 @@ export class LinkForm extends Component {
                         <input id="url" name="url" type="url" 
                             onChange={this.handleChange} 
                             value={this.state.url} 
-                            required 
+                            required
+                            pattern=".*\S+.*" 
+                            title="url cannot be blank" 
                             className="validate"  
                         />
                         <label htmlFor="url" className="active">Url</label>
