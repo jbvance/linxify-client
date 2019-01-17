@@ -52,8 +52,7 @@ export default function reducer(state = initialState, action) {
                 loading: false,
                 error: null
             })
-        case EDIT_LINK_SUCCESS:
-            console.log('DATA', action.data);
+        case EDIT_LINK_SUCCESS:            
             return Object.assign({}, state, {
                 loading: false,
                 error: null,

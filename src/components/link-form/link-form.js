@@ -23,16 +23,16 @@ export class LinkForm extends Component {
         }
         this.handleChange = this.handleChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.saveLink = this.saveLink.bind(this);       
+        this.saveLink = this.saveLink.bind(this);          
     }    
     
-    async componentDidMount() {                
+    componentDidMount() {                
 
         this.props.dispatch(clearLinkError());
         //load links if they have not previously been loaded
-        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
-            await this.props.dispatch(fetchUserLinks());
-        }
+        // if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
+        //     await this.props.dispatch(fetchUserLinks());
+        // }
         if (this.props.match.params.linkId) {
             const linkIndex = this.props.links.findIndex(link => link._id === this.props.match.params.linkId);
             if (linkIndex < 0) {                   
@@ -51,7 +51,7 @@ export class LinkForm extends Component {
         }  
         return this.props.dispatch(fetchUserCategories());                
     }
-
+   
     saveLink () {
         this.setState({ error: '' })
         const { title, url, note, category } = this.state; 
@@ -126,7 +126,8 @@ export class LinkForm extends Component {
         const { addEditLinkError } = this.props;
         if (this.props.linksLoading) {
             return <LoadingSpinner />
-        }    
+        }  
+                
         return (     
         <div className="container">            
             {this.state.error &&

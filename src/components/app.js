@@ -1,17 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Route, withRouter, Switch} from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.css';
-
-import HeaderBar from './header-bar';
 import Toolbar from './toolbar';
 import SideDrawer from './side-drawer';
 import LandingPage from './landing-page';
 import Dashboard from './dashboard';
 import RegistrationPage from './registration-page';
-import UserLinks from './user-links/user-links';
 import DisplayLinks from './user-links/display-links';
 import NoMatch from './no-match';
 import LinkForm from './link-form/link-form';
@@ -24,7 +21,7 @@ import { fetchUserCategories } from '../actions/categories';
 
 export class App extends React.Component {
     
-    async componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps) {
         if (!prevProps.loggedIn && this.props.loggedIn) {
             // When we are logged in, refresh the auth token periodically
             this.startPeriodicRefresh();
@@ -34,10 +31,10 @@ export class App extends React.Component {
         }
 
         if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
-            await this.props.dispatch(fetchUserLinks());
+            this.props.dispatch(fetchUserLinks());
         }
         if ( this.props.loggedIn && (!this.props.categories || this.props.categories.length === 0)) {            
-            await this.props.dispatch(fetchUserCategories());
+            this.props.dispatch(fetchUserCategories());
         }
     }
 

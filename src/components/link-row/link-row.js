@@ -7,7 +7,7 @@ const LinkRow = ({ link, deleteLink }) => {
     const title = link.title || link.url;
     const favIcon = link.favIcon || '/images/default-icon.png';
     return (
-        <div className="link-row" key={link._id}>
+        <div className="link-row hoverable" key={link._id}>
             <div className="favicon"><img src={favIcon} alt={title}/></div>
             <div className="url-text"><a href={link.url}>{title}</a></div>
             <div className="link-row__button-row">
