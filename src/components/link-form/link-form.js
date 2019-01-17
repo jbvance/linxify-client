@@ -28,11 +28,7 @@ export class LinkForm extends Component {
     
     componentDidMount() {                
 
-        this.props.dispatch(clearLinkError());
-        //load links if they have not previously been loaded
-        // if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
-        //     await this.props.dispatch(fetchUserLinks());
-        // }
+        this.props.dispatch(clearLinkError());        
         if (this.props.match.params.linkId) {
             const linkIndex = this.props.links.findIndex(link => link._id === this.props.match.params.linkId);
             if (linkIndex < 0) {                   
@@ -97,12 +93,20 @@ export class LinkForm extends Component {
     }
 
     renderCategories() {       
-        const categories = this.props.categories.map(category => {           
+
+        let noneCategory = this.props.categories.find(category => category.name === 'none');
+        if (noneCategory) {
+            noneCategory = noneCategory._id;
+        }
+        console.log('noneCategory', noneCategory);
+
+        const categories = this.props.categories.map(category => { 
+            if (category._id === noneCategory) console.log('FOUND NONE');
             return <option key={category._id} value={category._id}>{category.name}</option>
         })
    
         return (
-        <select id="category" name="category" value={this.state.category} onChange={this.handleChange} className="browser-default">
+        <select id="category" name="category" value={this.state.category || noneCategory} onChange={this.handleChange} className="browser-default">
             {categories}
         </select>
         );
@@ -185,8 +189,7 @@ export class LinkForm extends Component {
                 <div className="row">
                     <div className="col s12">
                         <label htmlFor="category">Category</label>
-                        {this.renderCategories()}
-                        
+                        {this.renderCategories()}                        
                     </div>
                 </div>
                 }
@@ -201,10 +204,8 @@ export class LinkForm extends Component {
     };
 }
 
-const mapStateToProps = state => ({            
-    authToken: state.auth.authToken,
-    categories: state.categories.categories,
-    loggedIn: state.auth.currentUser !== null,
+const mapStateToProps = state => ({                
+    categories: state.categories.categories,   
     categoriesLoading: state.categories.loading,
     links: state.userLinks.links,
     linksLoading: state.userLinks.loading,
