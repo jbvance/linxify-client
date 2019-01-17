@@ -100,7 +100,8 @@ export const editLink = ({ id, url, category, title, note }) => async (dispatch,
 
 export const addLink = ({ url, category, title, note }) => async (dispatch, getState) => {
     dispatch(editLinkRequest());
-    const authToken = getState().auth.authToken;    
+    const authToken = getState().auth.authToken;  
+    console.log('note', note);  
     return fetch(`${API_BASE_URL}/links`, {
         method: 'POST',
         headers: new Headers({
