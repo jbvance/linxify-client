@@ -72,7 +72,7 @@ export const setLinkToSave = (link) => {
     }   
 };
 
-export const editLink = ({ id, url, category, title, note }) => async (dispatch, getState) => {
+export const editLink = ({ id, url, category, title, note }) => (dispatch, getState) => {
     dispatch(editLinkRequest());
     const authToken = getState().auth.authToken;    
     return fetch(`${API_BASE_URL}/links/${id}`, {

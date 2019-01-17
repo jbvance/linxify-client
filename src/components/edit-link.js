@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import requiresLogin from './requires-login';
 import { editLink } from '../actions/links';
 import LoadingSpinner from './loading-spinner/loading-spinner';
 import LinkForm from './link-form/link-form';
   
 export const EditLink = props => {
-
+    
     const linkId = props.match.params.linkId;
 
     const getLink = (id) => {
@@ -15,7 +16,7 @@ export const EditLink = props => {
         return link;
     }   
 
-    const submitLink= (url, category, title, note) => {
+    const submitLink = (url, category, title, note) => {
         console.log('LINK_ID', linkId);
         console.log(url, category, title, note);
         props.dispatch(editLink({
@@ -24,10 +25,19 @@ export const EditLink = props => {
             category,
             title,
             note
-        }));
+        })).then(() => {                
+                if (!props.error) {                
+                    toast.success('Link saved successfully!', {
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                props.history.goBack();
+            }
+                     
+        });               
     }        
 
-        if (props.linksLoading || props.links.length === 0){
+        if (props.linksLoading || props.links.length === 0){ 
+            console.log('loading');          
             return <LoadingSpinner />
         }
 
@@ -37,11 +47,12 @@ export const EditLink = props => {
         }
 
         return (       
-            <div>
+            <div className="container">
+                <h3>Edit Link</h3>
                 {props.error &&
                     <div className="container alert-alert-danger">{props.error.message}</div>
                 }
-                <LinkForm link={link} onSubmitLink={submitLink}/>
+                <LinkForm link={link} onSubmitLink={submitLink} />
             </div>
         ); 
 };

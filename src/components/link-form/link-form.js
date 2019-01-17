@@ -36,7 +36,6 @@ export const LinkForm = props => {
     }
 
     const { title, url, note, category } = props.link;
-
         return (     
             <div className="container">                                           
                 <form className="col s12 link-form" onSubmit={onSubmit}>
