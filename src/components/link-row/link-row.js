@@ -11,7 +11,7 @@ const LinkRow = ({ link, deleteLink }) => {
             <div className="favicon"><img src={favIcon} alt={title}/></div>
             <div className="url-text"><a href={link.url}>{title}</a></div>
             <div className="link-row__button-row">
-                <Link to={{ pathname: `/links/edit/${link._id}`, search: "?sort=name", }} className="btn btn-primary link-row__button">Edit</Link>
+                <Link to={{ pathname: `/links/edit/${link._id}` }} className="btn btn-primary link-row__button">Edit</Link>
                 <button className="btn btn-primary link-row__button" onClick={() => deleteLink(link._id)}>Delete</button>
             </div>
         </div>

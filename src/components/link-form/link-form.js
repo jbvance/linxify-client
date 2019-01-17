@@ -14,7 +14,7 @@ export const LinkForm = props => {
             noneCategory = noneCategory._id;
         }       
 
-        const defaultCategory = props.link.category ? props.link.category._id || props.link.category : noneCategory      
+        const defaultCategory = props.link && props.link.category ? props.link.category._id || props.link.category : noneCategory      
         const categories = props.categories.map(category => {            
             return <option key={category._id} value={category._id || category}>{category.name}</option>
         })
@@ -35,7 +35,7 @@ export const LinkForm = props => {
         props.onSubmitLink(formUrl.value, formCategory.value, formTitle.value, formNote.value);
     }
 
-    const { title, url, note, category } = props.link;
+    const { title, url, note, category} = props.link ? props.link : '';
         return (     
             <div className="container">                                           
                 <form className="col s12 link-form" onSubmit={onSubmit}>

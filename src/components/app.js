@@ -11,7 +11,8 @@ import Dashboard from './dashboard';
 import RegistrationPage from './registration-page';
 import DisplayLinks from './user-links/display-links';
 import NoMatch from './no-match';
-import EditLink from './edit-link';
+import EditLink from './user-links/edit-link';
+import AddLink from './user-links/add-link';
 import Categories from './categories/categories';
 import EditCategory from './category-form/edit-category';
 import AddCategory from './category-form/add-category';
@@ -68,7 +69,7 @@ export class App extends React.Component {
                     <Route exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/register" component={RegistrationPage} />
                     <Route exact path="/my" component={DisplayLinks} />
-                    <Route exact path="/links/new" component={EditLink} />
+                    <Route exact path="/links/new" component={AddLink} />
                     <Route exact path="/links/edit/:linkId" component={EditLink} />
                     <Route expact path="/categories/:categoryId/links" component={DisplayLinks} />
                     <Route exact path="/categories" component={Categories} />

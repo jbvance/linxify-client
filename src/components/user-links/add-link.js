@@ -1,26 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-import requiresLogin from './requires-login';
-import { editLink } from '../actions/links';
-import LoadingSpinner from './loading-spinner/loading-spinner';
-import LinkForm from './link-form/link-form';
+import requiresLogin from '../requires-login';
+import { addLink } from '../../actions/links';
+import LoadingSpinner from '../loading-spinner/loading-spinner';
+import LinkForm from '../link-form/link-form';
   
-export const EditLink = props => {
-    
-    const linkId = props.match.params.linkId;
+export const AddLink = props => {           
 
-    const getLink = (id) => {
-        if (!props.links) return;
-        const link = props.links.find(lnk => lnk._id === id);         
-        return link;
-    }   
-
-    const submitLink = (url, category, title, note) => {
-        console.log('LINK_ID', linkId);
+    const submitLink = (url, category, title, note) => {        
         console.log(url, category, title, note);
-        props.dispatch(editLink({
-            id: linkId,
+        props.dispatch(addLink({            
             url,
             category,
             title,
@@ -30,7 +20,7 @@ export const EditLink = props => {
                     toast.success('Link saved successfully!', {
                         position: toast.POSITION.TOP_CENTER
                     });
-                props.history.goBack();
+                props.history.push('/my');
             }
                      
         });               
@@ -40,19 +30,14 @@ export const EditLink = props => {
             console.log('loading');          
             return <LoadingSpinner />
         }
-
-        const link = getLink(linkId);
-        if (!link) {
-            return <div className=" container alert alert-danger">Unble to locate link</div>
-        }
-
+       
         return (       
             <div className="container">
-                <h3>Edit Link</h3>
+                <h3 className="link-header">Add Link</h3>
                 {props.error &&
                     <div className="container alert-alert-danger">{props.error.message}</div>
                 }
-                <LinkForm link={link} onSubmitLink={submitLink} />
+                <LinkForm onSubmitLink={submitLink} />
             </div>
         ); 
 };
@@ -63,4 +48,4 @@ const mapStateToProps = state => ({
     error: state.userLinks.error,    
 });
 
-export default requiresLogin()(connect(mapStateToProps)(EditLink));
+export default requiresLogin()(connect(mapStateToProps)(AddLink));
