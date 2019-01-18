@@ -1,8 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {clearAuth} from '../actions/auth';
+import {clearAuthToken} from '../local-storage';
 
-export const Toolbar = (props) => {    
+export const Toolbar = (props) => {   
+    const logOut = () => {
+        props.dispatch(clearAuth());
+        clearAuthToken();
+    } 
     if (props.loggedIn) {
         return (
             <nav>
@@ -15,7 +21,8 @@ export const Toolbar = (props) => {
                     <li><Link to="/my">Your Links</Link></li>
                     <li><Link to="/links/new">Add Link</Link></li>
                     <li><Link to="/categories">Categories</Link></li>
-                    <li><Link to ="/categories/new">Add category</Link></li>                   
+                    <li><Link to ="/categories/new">Add category</Link></li> 
+                    {props.loggedIn && <li><a href="#" onClick={logOut}>Logout</a></li>}                
                 </ul>
                 </div>
             </nav>
