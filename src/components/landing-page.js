@@ -13,7 +13,7 @@ export function LandingPage(props) {
     return (
         <div className="home">
             <div className="container">
-                <h2>Welcome to Foo App</h2>
+                <h2>Welcome to Linxify</h2>
                 <LoginForm />
                 <Link to="/register">Register</Link>
             </div>

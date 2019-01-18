@@ -65,7 +65,7 @@ export class App extends React.Component {
                 <Toolbar /> 
                 <SideDrawer /> 
                 <Switch>
-                    <Route exact path="/" component={LandingPage} />
+                    <Route exact path="/" component={DisplayLinks} />
                     <Route exact path="/dashboard" component={Dashboard} />
                     <Route exact path="/register" component={RegistrationPage} />
                     <Route exact path="/my" component={DisplayLinks} />

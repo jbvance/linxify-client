@@ -43,17 +43,13 @@ export class AddCategory extends Component {
                                                                  
     }   
 
-    render() {
-
-        console.log('rendering');
+    render() {      
 
         if(this.props.categories.loading) {           
             return <LoadingSpinner />
         }                
 
-        const { error } = this.props.categories;
-        {console.log('ERROR IS', error)}
-    
+        const { error } = this.props.categories;       
         return (
             <div className="container">            
                 { error && error.error && (
@@ -64,8 +60,7 @@ export class AddCategory extends Component {
                 <CategoryForm onChangeName={this.changeName} onSubmitForm={this.submitAdd} />
             </div>           
         );
-    }
-   
+    }   
 };
 
 const mapStateToProps = state => ({
