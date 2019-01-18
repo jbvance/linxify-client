@@ -59,7 +59,7 @@ export const editCategory = (id, name) => (dispatch, getState) => {
 export const addCategory = (name) =>  (dispatch, getState) => {
     const token = getState().auth.authToken;  
     dispatch(editCategoryRequest());   
-    fetch(`${API_BASE_URL}/categories`, {
+    return fetch(`${API_BASE_URL}/categories`, {
         method: 'POST',
         headers: new Headers({
           'Accept': 'application/json',

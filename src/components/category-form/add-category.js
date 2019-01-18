@@ -6,8 +6,6 @@ import CategoryForm from './category-form';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { addCategory, editCategoryError } from '../../actions/categories';
 
-
-
 export class AddCategory extends Component {
     constructor(props) {
         super(props);        
@@ -28,44 +26,45 @@ export class AddCategory extends Component {
         this.setState({ name });        
     }
    
-    async submitAdd(){  
-        
+    submitAdd(){          
         const name = this.state.name;
-        try {
-            await this.props.dispatch(addCategory(name));
-            if (!this.props.categories.error) {
-                toast.success("Category saved successfully!", {
-                    position: toast.POSITION.TOP_CENTER
-                  });
-            }
-        } catch(error) {
-            console.error('ERROR SAVING CATEGORY', error);
-            toast.error("Unable to save category", {
-                position: toast.POSITION.TOP_CENTER
-              });  
-        }                                                            
+        console.log('starting add ');
+        this.props.dispatch(addCategory(name))
+            .then(() => {  
+                console.log('PROPS ERROR', this.props.categories.error);  
+                if (!this.props.categories.error) {
+                    console.log('redirecting');
+                    toast.success("Category saved successfully!", {
+                        position: toast.POSITION.TOP_CENTER
+                    });
+                    this.props.history.push('/categories');
+                }       
+            });
+                                                                 
     }   
 
     render() {
+
+        console.log('rendering');
 
         if(this.props.categories.loading) {           
             return <LoadingSpinner />
         }                
 
         const { error } = this.props.categories;
-        error && (
-            <div className="alert alert-danger">
-                <p>{error.message}</p>
-            </div> )      
-        
+        {console.log('ERROR IS', error)}
     
         return (
-            <CategoryForm onChangeName={this.changeName} onSubmitForm={this.submitAdd}
-            />
+            <div className="container">            
+                { error && error.error && (
+                    <div className="alert alert-danger">
+                        <p>Error: {error.error.message}</p>
+                    </div> )
+                }
+                <CategoryForm onChangeName={this.changeName} onSubmitForm={this.submitAdd} />
+            </div>           
         );
-
     }
-
    
 };
 
