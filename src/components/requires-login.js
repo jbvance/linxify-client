@@ -1,12 +1,14 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import LoadingSpinner from './loading-spinner/loading-spinner';
 
 export default () => Component => {
     function RequiresLogin(props) {       
         const {authenticating, loggedIn, error, ...passThroughProps} = props;
-        if (authenticating) {                       
-            return <div>Logging in...</div>;
+        if (authenticating) { 
+            console.log('LOGGING IN...');                      
+            return <LoadingSpinner />
         } else if (!loggedIn || error) {
             return <Redirect to="/" />;
         }
