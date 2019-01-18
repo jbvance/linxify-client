@@ -30,7 +30,7 @@ const Categories = (props) => {
         return sortedCategories.map(category => {
             const title = category.name
             return (
-                <div key={category._id} className="link-row"> 
+                <div key={category._id} className="link-row hoverable"> 
                     <div className="url-text">
                         <Link to={{ pathname: `/categories/${category._id}/links` }}>{category.name}</Link>
                     </div>                      

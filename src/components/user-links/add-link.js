@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
@@ -8,8 +8,7 @@ import LinkForm from '../link-form/link-form';
   
 export const AddLink = props => {           
 
-    const submitLink = (url, category, title, note) => {        
-        console.log(url, category, title, note);
+    const submitLink = (url, category, title, note) => {              
         props.dispatch(addLink({            
             url,
             category,
@@ -26,8 +25,7 @@ export const AddLink = props => {
         });               
     }        
 
-        if (props.linksLoading || props.links.length === 0){ 
-            console.log('loading');          
+        if (props.linksLoading){                   
             return <LoadingSpinner />
         }
        
@@ -42,8 +40,7 @@ export const AddLink = props => {
         ); 
 };
 
-const mapStateToProps = state => ({                          
-    links: state.userLinks.links,
+const mapStateToProps = state => ({                             
     linksLoading: state.userLinks.loading,      
     error: state.userLinks.error,    
 });

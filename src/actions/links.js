@@ -152,6 +152,8 @@ export const addLinkFromAddressBar = ({ url, category = null, title = null, note
         .catch(err => {
             console.error(err);
             dispatch(editLinkError(err));
+            // clear out link to save even if an error occurred so that the app
+            // doesn't attempt to save a link every time the display links component is mounted
             dispatch(setLinkToSave({url: null, category: null}));
         });
 }
@@ -159,7 +161,7 @@ export const addLinkFromAddressBar = ({ url, category = null, title = null, note
 export const deleteLink = (id) => async (dispatch, getState) => {
     dispatch(editLinkRequest());
     const authToken = getState().auth.authToken;  
-    fetch(`${API_BASE_URL}/links/${id}`, {
+    return fetch(`${API_BASE_URL}/links/${id}`, {
         method: 'DELETE',
         headers: new Headers({
           'Accept': 'application/json',

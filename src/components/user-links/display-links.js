@@ -22,7 +22,8 @@ class DisplayLinks extends Component {
     componentDidMount() {       
         this.props.dispatch(clearLinkError());
         
-        // save a new link if we got here after linkToSave has been set in state 
+        // save a new link if we got here after linkToSave has been set in state
+        // e.g., user appended a url to lixify url and hit enter from address bar
         const { linkToSave } = this.props;
         if (linkToSave && linkToSave.url) {           
             this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))
