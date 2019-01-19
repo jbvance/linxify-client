@@ -3,8 +3,8 @@ import {normalizeResponseErrors} from './utils';
 import { ADD_CATEGORY_SUCCESS, addCategorySuccess } from './categories';
 
 
-export const FETCH_LINKS_REQUEST = 'link_request';
-export const FETCH_LINKS_SUCCESS = 'link_success';
+export const FETCH_LINKS_REQUEST = 'fetch_link_request';
+export const FETCH_LINKS_SUCCESS = 'fetch_link_success';
 export const FETCH_LINKS_ERROR = 'link_errror';
 export const EDIT_LINK_REQUEST = 'edit_link_request';
 export const EDIT_LINK_ERROR = 'edit_link_error';
@@ -125,7 +125,8 @@ export const addLink = ({ url, category, title, note }) => async (dispatch, getS
         });
 }
 
-export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => async (dispatch, getState) => {    
+export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => async (dispatch, getState) => {
+    
     dispatch(editLinkRequest());    
     const authToken = getState().auth.authToken;    
     return fetch(`${API_BASE_URL}/links`, {
@@ -148,7 +149,7 @@ export const addLinkFromAddressBar = ({ url, category = null, title = null, note
             // add category to state if it user has sav= new
             // category as part of the url passed in            
             const categories = getState().categories.categories;            
-            if (!categories.find(cat => cat._id === data.category)) {
+            if (!categories.find(cat => cat._id === data.category._id)) {
                //category was added to database, dispatch action
                // to add new category to state
                dispatch(addCategorySuccess(data.category));

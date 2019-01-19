@@ -28,7 +28,7 @@ class DisplayLinks extends Component {
         if (linkToSave && linkToSave.url) {           
             this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))
             .then(() => {
-                this.props.dispatch(fetchUserLinks());
+                //this.props.dispatch(fetchUserLinks());
             });
         } 
     }
