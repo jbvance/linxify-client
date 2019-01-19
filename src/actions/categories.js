@@ -33,8 +33,7 @@ export const fetchUserCategories = () => (dispatch, getState) => {
 }
 
 export const editCategory = (id, name) => (dispatch, getState) => {
-    const token = getState().auth.authToken;  
-    console.log('in action', id, name);
+    const token = getState().auth.authToken;      
     dispatch(editCategoryRequest());   
     fetch(`${API_BASE_URL}/categories/${id}`, {
         method: 'PUT',

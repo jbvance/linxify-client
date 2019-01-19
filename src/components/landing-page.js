@@ -5,8 +5,7 @@ import { loadAuthToken } from '../local-storage';
 
 import LoginForm from './login-form';
 
-export function LandingPage(props) {
-    console.log('landing page');
+export function LandingPage(props) {    
     const authToken = loadAuthToken();  
     // If we are logged in redirect straight to the user's dashboard
     // If there is an authToken present, skip render for now until
@@ -20,8 +19,7 @@ export function LandingPage(props) {
     }
 
     return (       
-        <div className="home">
-        {console.log('about to render login form')}
+        <div className="home">       
             <div className="container">
                 <h2>Welcome to Linxify</h2>
                 <LoginForm />

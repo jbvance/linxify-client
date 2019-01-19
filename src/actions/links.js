@@ -1,5 +1,6 @@
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from './utils';
+import { ADD_CATEGORY_SUCCESS, addCategorySuccess } from './categories';
 
 
 export const FETCH_LINKS_REQUEST = 'link_request';
@@ -100,8 +101,7 @@ export const editLink = ({ id, url, category, title, note }) => (dispatch, getSt
 
 export const addLink = ({ url, category, title, note }) => async (dispatch, getState) => {
     dispatch(editLinkRequest());
-    const authToken = getState().auth.authToken;  
-    console.log('note', note);  
+    const authToken = getState().auth.authToken;        
     return fetch(`${API_BASE_URL}/links`, {
         method: 'POST',
         headers: new Headers({
@@ -125,8 +125,7 @@ export const addLink = ({ url, category, title, note }) => async (dispatch, getS
         });
 }
 
-export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => async (dispatch, getState) => {
-    console.log('URL', url);
+export const addLinkFromAddressBar = ({ url, category = null, title = null, note = null }) => async (dispatch, getState) => {    
     dispatch(editLinkRequest());    
     const authToken = getState().auth.authToken;    
     return fetch(`${API_BASE_URL}/links`, {
@@ -146,6 +145,14 @@ export const addLinkFromAddressBar = ({ url, category = null, title = null, note
         .then(res => normalizeResponseErrors(res))
         .then(res => res.json())
         .then(({data}) => {
+            // add category to state if it user has sav= new
+            // category as part of the url passed in            
+            const categories = getState().categories.categories;            
+            if (!categories.find(cat => cat._id === data.category)) {
+               //category was added to database, dispatch action
+               // to add new category to state
+               dispatch(addCategorySuccess(data.category));
+            }
             dispatch(addLinkSuccess(data));
             dispatch(setLinkToSave( {url: null, category: null} ));
         })

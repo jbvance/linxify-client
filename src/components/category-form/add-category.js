@@ -27,8 +27,7 @@ export class AddCategory extends Component {
     }
    
     submitAdd(){          
-        const name = this.state.name;
-        console.log('starting add ');
+        const name = this.state.name;        
         this.props.dispatch(addCategory(name))
             .then(() => {  
                 console.log('PROPS ERROR', this.props.categories.error);  

@@ -58,8 +58,7 @@ export default function reducer(state = initialState, action) {
                 categories: [...state.categories, action.data]
             });
         case DELETE_CATEGORY_SUCCESS:
-            const index = state.categories.findIndex(item => item._id === action.id);
-            console.log('index to delete', index);
+            const index = state.categories.findIndex(item => item._id === action.id);            
             return Object.assign({}, state, {
                 loading: false,
                 error: null,
