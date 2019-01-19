@@ -10,8 +10,12 @@ import editCategory from '../category-form/edit-category';
 
 class Categories extends Component {
 
-    componentDidMount() {        
-        this.props.dispatch(fetchUserCategories());
+    componentDidMount() {
+        const { categories } = this.props;
+        if (!categories || categories.length === 0) {
+            console.log('loading categories');
+            this.props.dispatch(fetchUserCategories());
+        }       
     }       
 
     sortCategories (a, b) {

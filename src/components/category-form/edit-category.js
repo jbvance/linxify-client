@@ -6,8 +6,6 @@ import CategoryForm from './category-form';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import { editCategory, editCategoryError, fetchUserCategories } from '../../actions/categories';
 
-
-
 export class EditCategory extends Component {
     constructor(props) {
         super(props);
@@ -20,13 +18,20 @@ export class EditCategory extends Component {
         }
     }
 
-    componentDidMount() {   
+    componentDidMount() {          
          // clear out any error from a previous page's error(s) regarding categories
-        this.props.dispatch(editCategoryError(null));
-        this.props.dispatch(fetchUserCategories())
+         this.props.dispatch(editCategoryError(null)); 
+
+         const { categories }  = this.props.categories;
+        if (!categories || categories.length === 0) {
+            console.log('loading categories');
+            this.props.dispatch(fetchUserCategories())
             .then(() => {
                 this.setState({ name: this.getCategoryName(this.props.match.params.categoryId)})
-            });        
+            });
+        } else {
+            this.setState({ name: this.getCategoryName(this.props.match.params.categoryId)})
+        }                    
     }
 
     changeName(name) {

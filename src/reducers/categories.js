@@ -17,8 +17,7 @@ const initialState = {
 
 export default function reducer(state = initialState, action) {    
     switch(action.type) {
-        case FETCH_CATEGORIES_REQUEST:
-            console.log('getting categories');
+        case FETCH_CATEGORIES_REQUEST:           
             return Object.assign({}, state, { 
                 loading: true,
                 error: null 
