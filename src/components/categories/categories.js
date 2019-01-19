@@ -12,8 +12,7 @@ class Categories extends Component {
 
     componentDidMount() {
         const { categories } = this.props;
-        if (!categories || categories.length === 0) {
-            console.log('loading categories');
+        if (!categories || categories.length === 0) {           
             this.props.dispatch(fetchUserCategories());
         }       
     }       

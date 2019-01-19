@@ -29,10 +29,8 @@ export class AddCategory extends Component {
     submitAdd(){          
         const name = this.state.name;        
         this.props.dispatch(addCategory(name))
-            .then(() => {  
-                console.log('PROPS ERROR', this.props.categories.error);  
-                if (!this.props.categories.error) {
-                    console.log('redirecting');
+            .then(() => {                  
+                if (!this.props.categories.error) {                    
                     toast.success("Category saved successfully!", {
                         position: toast.POSITION.TOP_CENTER
                     });
