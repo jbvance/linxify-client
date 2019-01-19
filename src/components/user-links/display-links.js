@@ -19,18 +19,18 @@ class DisplayLinks extends Component {
         this.filterByCategory = this.filterByCategory.bind(this); 
     }
 
-    componentDidMount() {       
-        this.props.dispatch(clearLinkError());
-        
-        // save a new link if we got here after linkToSave has been set in state
-        // e.g., user appended a url to lixify url and hit enter from address bar
-        const { linkToSave } = this.props;
+    componentDidMount() {  
+        const { linkToSave } = this.props; 
+        // if we got here because user appended a url to the linxify url and hit
+        // enter in the address bar, save the link then load the data
         if (linkToSave && linkToSave.url) {           
             this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))
             .then(() => {
-                //this.props.dispatch(fetchUserLinks());
+                this.props.dispatch(fetchUserLinks());
             });
-        } 
+        } else { //user is not trying to save a new link
+            this.props.dispatch(fetchUserLinks());
+        }       
     }
 
     updateSearch(value) {             

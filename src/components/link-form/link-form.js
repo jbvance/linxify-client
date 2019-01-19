@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {fetchUserCategories} from '../../actions/categories';
 
 export const LinkForm = props => {
     
@@ -8,13 +9,13 @@ export const LinkForm = props => {
     let formNote = null;
     let formCategory = null;
 
-    const renderCategoriesSelect = () => {             
-        let noneCategory = props.categories.find(category => category.name === 'none');
+    const renderCategoriesSelect = () => {                   
+        let noneCategory = props.categories.find(category => category.name.toLowerCase() === 'none');
         if (noneCategory) {
             noneCategory = noneCategory._id;
         }       
 
-        const defaultCategory = props.link && props.link.category ? props.link.category._id || props.link.category : noneCategory      
+        const defaultCategory = props.link && props.link.category ? props.link.category._id || props.link.category : noneCategory;      
         const categories = props.categories.map(category => {            
             return <option key={category._id} value={category._id || category}>{category.name}</option>
         })

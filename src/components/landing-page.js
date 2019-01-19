@@ -14,7 +14,7 @@ export function LandingPage(props) {
     // renders temporarily even if already logged in. To avoid this,
     // skip the render altogether if a jwt is present, and the user will
     // be redirected to login if it turns out the jwt is not valid
-    if (props.loggedIn) {
+    if (authToken || props.loggedIn) {
         return <Redirect to="/my" />;
     }
 

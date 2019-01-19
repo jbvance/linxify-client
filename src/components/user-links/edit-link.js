@@ -1,45 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
-import { editLink } from '../../actions/links';
+import { editLink, fetchUserLinks } from '../../actions/links';
+import { fetchUserCategories } from '../../actions/categories';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import LinkForm from '../link-form/link-form';
-  
-export const EditLink = props => {
-    
-    const linkId = props.match.params.linkId;
+  export class EditLink extends Component {
 
-    const getLink = (id) => {
-        if (!props.links) return;
-        const link = props.links.find(lnk => lnk._id === id);         
+    componentDidMount() {
+        this.props.dispatch(fetchUserLinks());
+        this.props.dispatch(fetchUserCategories());
+    }
+    
+    getLink (id) {        
+        if (!this.props.links) return;
+        const link = this.props.links.find(lnk => lnk._id === id);         
         return link;
     }   
 
-    const submitLink = (url, category, title, note) => {     
-        props.dispatch(editLink({
-            id: linkId,
+    submitLink (url, category, title, note) {
+        this.props.dispatch(editLink({
+            id: this.props.match.params.linkId,
             url,
             category,
             title,
             note
-        })).then(() => {                
-                if (!props.error) {                
-                    toast.success('Link saved successfully!', {
-                        position: toast.POSITION.TOP_CENTER
-                    });
-                props.history.goBack();
+        })).then(() => {
+            if (!this.props.error) {
+                toast.success('Link saved successfully!', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                this.props.history.goBack();
             }
-                     
-        });               
-    }        
+        });
+    }
 
-        if (props.linksLoading || props.links.length === 0){ 
-            console.log('loading');          
+    render() {
+        const linkId = this.props.match.params.linkId;
+        
+        if (this.props.linksLoading || this.props.categoriesLoading){                      
             return <LoadingSpinner />
         }
 
-        const link = getLink(linkId);
+        const link = this.getLink(linkId);
         if (!link) {
             return <div className=" container alert alert-danger">Unble to locate link</div>
         }
@@ -47,18 +51,22 @@ export const EditLink = props => {
         return (       
             <div className="container">
                 <h3 className="link-header">Edit Link</h3>
-                {props.error &&
-                    <div className="container alert-alert-danger">{props.error.message}</div>
+                {this.props.error &&
+                    <div className="container alert-alert-danger">{this.props.error.message}</div>
                 }
-                <LinkForm link={link} onSubmitLink={submitLink} />
+                <LinkForm link={link} onSubmitLink={(url, category, title, note) => this.submitLink(url, category, title, note)} />
             </div>
         ); 
+    }
+
 };
 
 const mapStateToProps = state => ({                          
     links: state.userLinks.links,
     linksLoading: state.userLinks.loading,      
     error: state.userLinks.error,    
+    categories: state.categories.categories,
+    categoriesLoading: state.categories.loading
 });
 
 export default requiresLogin()(connect(mapStateToProps)(EditLink));

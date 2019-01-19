@@ -17,15 +17,12 @@ import Categories from './categories/categories';
 import EditCategory from './category-form/edit-category';
 import AddCategory from './category-form/add-category';
 import {refreshAuthToken} from '../actions/auth';
-import { fetchUserLinks } from '../actions/links';
 import { fetchUserCategories } from '../actions/categories';
 
 export class App extends React.Component {
     
     componentDidUpdate(prevProps) {
-        if (!prevProps.loggedIn && this.props.loggedIn) {
-            this.props.dispatch(fetchUserLinks());
-            this.props.dispatch(fetchUserCategories());
+        if (!prevProps.loggedIn && this.props.loggedIn) {           
             // When we are logged in, refresh the auth token periodically
             this.startPeriodicRefresh();
         } else if (prevProps.loggedIn && !this.props.loggedIn) {
