@@ -1,32 +1,33 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
-import { deleteCategory, editCategoryError } from '../../actions/categories';
+import { deleteCategory, fetchUserCategories } from '../../actions/categories';
 import editCategory from '../category-form/edit-category';
 
 
-const Categories = (props) => {
-    
-    //clear any errors before rendering
-    props.dispatch(editCategoryError(null));
+class Categories extends Component {
 
-    const sortCategories = (a, b) => {
+    componentDidMount() {        
+        this.props.dispatch(fetchUserCategories());
+    }       
+
+    sortCategories (a, b) {
         const textA = a.name.toUpperCase();
         const textB = b.name.toUpperCase();
         return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
     }
     
-    const deleteUserCategory =  (id, name) => {
+    deleteUserCategory (id, name) {
         if (!window.confirm(`Delete category "${name}"?`)) return;  
-        props.dispatch(deleteCategory(id));        
+        this.props.dispatch(deleteCategory(id));        
                                                                                                   
     }
     
-    const renderCategories = (categories) => {
-        const sortedCategories = categories.sort(sortCategories);
+    renderCategories (categories) {
+        const sortedCategories = categories.sort(this.sortCategories);
         return sortedCategories.map(category => {
             const title = category.name
             return (
@@ -36,33 +37,37 @@ const Categories = (props) => {
                     </div>                      
                     <div className="link-row__button-row">
                         <Link to={{ pathname: `/categories/edit/${category._id}` }} className="btn btn-primary link-row__button">Edit</Link>
-                        <button className="btn btn-primary link-row__button" onClick={() => deleteUserCategory(category._id, category.name)}>Delete</button>
+                        <button className="btn btn-primary link-row__button" onClick={() => this.deleteUserCategory(category._id, category.name)}>Delete</button>
                     </div>
                 </div>
           )
         });
     };
 
-    if (props.loading) {        
-        return <LoadingSpinner />
+    render() {
+        if (this.props.loading) {        
+            return <LoadingSpinner />
+        }
+    
+        if (this.props.error) {
+            {
+                toast.error(this.props.error.error.message, {
+                position: toast.POSITION.TOP_CENTER
+              });          
+            }
+        }
+        
+        return (
+            <div className="container">
+                <h2>Categories</h2>
+                <div>
+                    {this.props.categories.length > 0 ? this.renderCategories(this.props.categories) : <p>No categories found</p>}
+                </div>
+            </div>
+        );
     }
 
-    if (props.error) {
-        {
-            toast.error(props.error.error.message, {
-            position: toast.POSITION.TOP_CENTER
-          });          
-        }
-    }
-    
-    return (
-        <div className="container">
-            <h2>Categories</h2>
-            <div>
-                {renderCategories(props.categories)}
-            </div>
-        </div>
-    );
+   
 };
 
 const mapStateToProps = state => ({

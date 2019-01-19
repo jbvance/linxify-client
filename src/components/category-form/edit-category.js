@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import CategoryForm from './category-form';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
-import { editCategory, editCategoryError } from '../../actions/categories';
+import { editCategory, editCategoryError, fetchUserCategories } from '../../actions/categories';
 
 
 
@@ -20,14 +20,13 @@ export class EditCategory extends Component {
         }
     }
 
-    componentDidMount() {      
-        const name = this.getCategoryName(this.props.match.params.categoryId);
-        this.setState({
-            name
-        })
-
-       // clear out any error from a previous page's error(s) regarding categories
-       this.props.dispatch(editCategoryError(null));
+    componentDidMount() {   
+         // clear out any error from a previous page's error(s) regarding categories
+        this.props.dispatch(editCategoryError(null));
+        this.props.dispatch(fetchUserCategories())
+            .then(() => {
+                this.setState({ name: this.getCategoryName(this.props.match.params.categoryId)})
+            });        
     }
 
     changeName(name) {
@@ -58,12 +57,11 @@ export class EditCategory extends Component {
     }   
 
     render() {
-
-        if(this.props.categories.loading) {
-            console.log('loading');
+       
+        if(this.props.categories.loading) {           
             return <LoadingSpinner />
-        }                
-
+        }   
+                
         const { error } = this.props.categories;
 
         if (error) {
