@@ -24,19 +24,14 @@ export class App extends React.Component {
     
     componentDidUpdate(prevProps) {
         if (!prevProps.loggedIn && this.props.loggedIn) {
+            this.props.dispatch(fetchUserLinks());
+            this.props.dispatch(fetchUserCategories());
             // When we are logged in, refresh the auth token periodically
             this.startPeriodicRefresh();
         } else if (prevProps.loggedIn && !this.props.loggedIn) {
             // Stop refreshing when we log out
             this.stopPeriodicRefresh();
-        }
-
-        if ( this.props.loggedIn && (!this.props.links || this.props.links.length === 0)) {            
-            this.props.dispatch(fetchUserLinks());
-        }
-        if ( this.props.loggedIn && (!this.props.categories || this.props.categories.length === 0)) {            
-            this.props.dispatch(fetchUserCategories());
-        }
+        }        
     }
 
     componentWillUnmount() {

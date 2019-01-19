@@ -35,7 +35,7 @@ export const LinkForm = props => {
         props.onSubmitLink(formUrl.value, formCategory.value, formTitle.value, formNote.value);
     }
 
-    const { title, url, note, category} = props.link ? props.link : '';
+    const { title, url, note } = props.link ? props.link : '';
         return (     
             <div className="container">                                           
                 <form className="col s12 link-form" onSubmit={onSubmit}>

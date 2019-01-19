@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
@@ -16,9 +16,7 @@ export const EditLink = props => {
         return link;
     }   
 
-    const submitLink = (url, category, title, note) => {
-        console.log('LINK_ID', linkId);
-        console.log(url, category, title, note);
+    const submitLink = (url, category, title, note) => {     
         props.dispatch(editLink({
             id: linkId,
             url,
