@@ -14,11 +14,11 @@ export const SideDrawer = (props) => {
     if (props.loggedIn) {
         return (
             <ul className="sidenav" id="mobile-nav">
-                <li><Link to="/my">Your Links</Link></li>
-                <li><Link to="/links/new">Add Link</Link></li>
-                <li><Link to="/categories">Categories</Link></li>
-                <li><Link to ="/categories/new">Add Category</Link></li>               
-                <li><a href="#" onClick={logOut}>Logout</a></li>  
+                <li><Link to="/my" className="sidenav-close">Your Links</Link></li>
+                <li><Link to="/links/new" className="sidenav-close">Add Link</Link></li>
+                <li><Link to="/categories" className="sidenav-close">Categories</Link></li>
+                <li><Link to ="/categories/new" className="sidenav-close">Add Category</Link></li>               
+                <li><a href="#" onClick={logOut} className="sidenav-close">Logout</a></li>  
             </ul>
         );
     } else {
