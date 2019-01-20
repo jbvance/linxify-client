@@ -4,13 +4,15 @@ import UserLinks from './user-links';
 import SearchBar from '../search-bar/search-bar';
 import requiresLogin from '../requires-login';
 import { addLinkFromAddressBar, fetchUserLinks, clearLinkError, deleteLink } from '../../actions/links';
+import {fetchUserCategories } from '../../actions/categories';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
 
 class DisplayLinks extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            searchFilter: ''
+            searchFilter: '',
+            categoryName: ''
         }
         this.updateSearch = this.updateSearch.bind(this);    
         this.checkSearch = this.checkSearch.bind(this); 
@@ -27,10 +29,21 @@ class DisplayLinks extends Component {
             this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))
             .then(() => {
                 this.props.dispatch(fetchUserLinks());
+                if (!this.props.categories || this.props.categories.length === 0) {
+                    this.props.dispatch(fetchUserCategories());
+                }                
             });
         } else { //user is not trying to save a new link
             this.props.dispatch(fetchUserLinks());
+            if (!this.props.categories || this.props.categories.length === 0) {
+                this.props.dispatch(fetchUserCategories());
+            }           
         }       
+    }
+
+    getCategoryName(id) {             
+        const category = this.props.categories.find(category => category._id === id);
+        return category ? category.name : '';
     }
 
     updateSearch(value) {             
@@ -76,6 +89,7 @@ class DisplayLinks extends Component {
         return (
             <div>
                 <SearchBar onChange={this.updateSearch}/>
+                 {categoryId && <h3 className="category-header">Category: {this.getCategoryName(categoryId)} </h3>}
                 <UserLinks links = {filteredLinks} checkSearch={this.checkSearch} deleteLink={this.deleteLink}/>
             </div>
         );
@@ -86,6 +100,7 @@ const mapStateToProps = (state) => ({
     userLinks: state.userLinks.links,
     linkToSave: state.userLinks.linkToSave,    
     loading: state.userLinks.loading,
+    categories: state.categories.categories,
     error: state.userLinks.error
 });
 

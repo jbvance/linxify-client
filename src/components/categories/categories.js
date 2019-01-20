@@ -5,16 +5,11 @@ import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
 import { deleteCategory, fetchUserCategories } from '../../actions/categories';
-import editCategory from '../category-form/edit-category';
-
 
 class Categories extends Component {
 
-    componentDidMount() {
-        const { categories } = this.props;
-        if (!categories || categories.length === 0) {           
-            this.props.dispatch(fetchUserCategories());
-        }       
+    componentDidMount() {                
+        this.props.dispatch(fetchUserCategories());      
     }       
 
     sortCategories (a, b) {
@@ -69,8 +64,6 @@ class Categories extends Component {
             </div>
         );
     }
-
-   
 };
 
 const mapStateToProps = state => ({

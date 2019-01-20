@@ -77,3 +77,8 @@ textarea {height: 6rem;}
 .link-header {
   text-align: center;
 }
+
+.category-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
