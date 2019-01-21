@@ -4,12 +4,15 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
-import { deleteCategory, fetchUserCategories } from '../../actions/categories';
+import { deleteCategory, editCategoryError } from '../../actions/categories';
 
 class Categories extends Component {
 
     componentDidMount() {                
-        this.props.dispatch(fetchUserCategories());      
+        //this.props.dispatch(fetchUserCategories()); 
+        // clear out any error from previous render
+        this.props.dispatch(editCategoryError());
+
     }       
 
     sortCategories (a, b) {

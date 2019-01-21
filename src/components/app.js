@@ -18,13 +18,24 @@ import EditCategory from './category-form/edit-category';
 import AddCategory from './category-form/add-category';
 import {refreshAuthToken} from '../actions/auth';
 import { fetchUserCategories } from '../actions/categories';
+import { fetchUserLinks, addLinkFromAddressBar } from '../actions/links';
 
-export class App extends React.Component {
-    
-    componentDidUpdate(prevProps) {
+export class App extends React.Component {    
+
+    async componentDidUpdate(prevProps) {
         if (!prevProps.loggedIn && this.props.loggedIn) {           
             // When we are logged in, refresh the auth token periodically
             this.startPeriodicRefresh();
+            console.log('app mounted');
+            const { linkToSave } = this.props;
+            if (linkToSave && linkToSave.url) {           
+                await this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))            
+            } else { //user is not trying to save a new link
+                console.log('NO LINK TO SAVE');   
+            }        
+            await this.props.dispatch(fetchUserLinks());
+            await this.props.dispatch(fetchUserCategories());            
+            console.log('data loaded');
         } else if (prevProps.loggedIn && !this.props.loggedIn) {
             // Stop refreshing when we log out
             this.stopPeriodicRefresh();
@@ -78,7 +89,8 @@ const mapStateToProps = state => ({
     hasAuthToken: state.auth.authToken !== null,
     loggedIn: state.auth.currentUser !== null,
     links: state.userLinks.links,
-    categories: state.categories.categories
+    categories: state.categories.categories,
+    linkToSave: state.userLinks.linkToSave
 });
 
 // Deal with update blocking - https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking

@@ -3,8 +3,7 @@ import { connect } from 'react-redux';
 import UserLinks from './user-links';
 import SearchBar from '../search-bar/search-bar';
 import requiresLogin from '../requires-login';
-import { addLinkFromAddressBar, fetchUserLinks, clearLinkError, deleteLink } from '../../actions/links';
-import {fetchUserCategories } from '../../actions/categories';
+import { addLinkFromAddressBar, clearLinkError, deleteLink } from '../../actions/links';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
 
 class DisplayLinks extends Component {
@@ -22,23 +21,16 @@ class DisplayLinks extends Component {
     }
 
     componentDidMount() {  
+        // clear out any errors from previous render
+        this.props.dispatch(clearLinkError());
         const { linkToSave } = this.props; 
         // if we got here because user appended a url to the linxify url and hit
         // enter in the address bar, save the link then load the data
-        if (linkToSave && linkToSave.url) {           
-            this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))
-            .then(() => {
-                this.props.dispatch(fetchUserLinks());
-                if (!this.props.categories || this.props.categories.length === 0) {
-                    this.props.dispatch(fetchUserCategories());
-                }                
-            });
-        } else { //user is not trying to save a new link
-            this.props.dispatch(fetchUserLinks());
-            if (!this.props.categories || this.props.categories.length === 0) {
-                this.props.dispatch(fetchUserCategories());
-            }           
-        }       
+        // if (linkToSave && linkToSave.url) {           
+        //     this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))            
+        // } else { //user is not trying to save a new link
+        //     console.log('NO LINK TO SAVE');                    
+        // }       
     }
 
     getCategoryName(id) {             
@@ -80,7 +72,7 @@ class DisplayLinks extends Component {
     
         const categoryId = this.props.match.params.categoryId;
 
-        if (this.props.loading) {
+        if (this.props.loading || this.props.categories.loading) {
             return <LoadingSpinner />
         } else if (this.props.error) {
            <div className="alert alert-danger">Error: {this.props.error.error.message}</div>
@@ -100,6 +92,7 @@ const mapStateToProps = (state) => ({
     userLinks: state.userLinks.links,
     linkToSave: state.userLinks.linkToSave,    
     loading: state.userLinks.loading,
+    categoriesLoading: state.categories.loading,
     categories: state.categories.categories,
     error: state.userLinks.error
 });

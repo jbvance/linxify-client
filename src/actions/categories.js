@@ -10,7 +10,7 @@ export const EDIT_CATEGORY_SUCCESS = 'edit_category_success';
 export const ADD_CATEGORY_SUCCESS = 'add_category_success';
 export const DELETE_CATEGORY_SUCCESS = 'delete_category_success';
 
-export const fetchUserCategories = () => (dispatch, getState) => {       
+export const fetchUserCategories =  () =>  async (dispatch, getState) => {       
         dispatch(fetchCategoriesRequest()); 
         const token = getState().auth.authToken;
         return fetch(`${API_BASE_URL}/categories`, {
@@ -22,7 +22,8 @@ export const fetchUserCategories = () => (dispatch, getState) => {
             }),
         })
         .then(res => res.json())
-        .then(resJson => {               
+        .then(resJson => {          
+            console.log('got data');     
             const sortedCategories = resJson.data.sort((a, b) => a.name < b.name ? -1 : (a.name > b.name) ? 1 : 0);                        
            dispatch(fetchCategoriesSuccess({ data: sortedCategories }));
         })
