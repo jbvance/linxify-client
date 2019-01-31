@@ -6,7 +6,6 @@ import { isValidUrl } from '../utils';
 
 export const NoMatch = (props) => {
     const location = props.location.pathname.replace(/^\/+/g, '');
-    console.log('location',location);
     // Determine if user got here because they entered a valid url and (optional) category as the path
     let url = null;
     let category = null;
