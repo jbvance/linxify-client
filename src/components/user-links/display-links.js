@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import UserLinks from './user-links';
 import SearchBar from '../search-bar/search-bar';
 import requiresLogin from '../requires-login';
-import { addLinkFromAddressBar, clearLinkError, deleteLink } from '../../actions/links';
+import { clearLinkError, deleteLink } from '../../actions/links';
 import LoadingSpinner from '../loading-spinner/loading-spinner'
 
 class DisplayLinks extends Component {
@@ -21,16 +21,8 @@ class DisplayLinks extends Component {
     }
 
     componentDidMount() {  
-        // clear out any errors from previous render
-        this.props.dispatch(clearLinkError());
-        const { linkToSave } = this.props; 
-        // if we got here because user appended a url to the linxify url and hit
-        // enter in the address bar, save the link then load the data
-        // if (linkToSave && linkToSave.url) {           
-        //     this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))            
-        // } else { //user is not trying to save a new link
-        //     console.log('NO LINK TO SAVE');                    
-        // }       
+        // clear out any errors from any previous render
+        this.props.dispatch(clearLinkError());                 
     }
 
     getCategoryName(id) {             

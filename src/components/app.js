@@ -25,17 +25,13 @@ export class App extends React.Component {
     async componentDidUpdate(prevProps) {
         if (!prevProps.loggedIn && this.props.loggedIn) {           
             // When we are logged in, refresh the auth token periodically
-            this.startPeriodicRefresh();
-            console.log('app mounted');
+            this.startPeriodicRefresh();            
             const { linkToSave } = this.props;
             if (linkToSave && linkToSave.url) {           
                 await this.props.dispatch(addLinkFromAddressBar({url: linkToSave.url, category: linkToSave.category }))            
-            } else { //user is not trying to save a new link
-                console.log('NO LINK TO SAVE');   
-            }        
+            }       
             await this.props.dispatch(fetchUserLinks());
-            await this.props.dispatch(fetchUserCategories());            
-            console.log('data loaded');
+            await this.props.dispatch(fetchUserCategories());                        
         } else if (prevProps.loggedIn && !this.props.loggedIn) {
             // Stop refreshing when we log out
             this.stopPeriodicRefresh();

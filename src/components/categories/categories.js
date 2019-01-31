@@ -29,8 +29,7 @@ class Categories extends Component {
     
     renderCategories (categories) {
         const sortedCategories = categories.sort(this.sortCategories);
-        return sortedCategories.map(category => {
-            const title = category.name
+        return sortedCategories.map(category => {           
             return (
                 <div key={category._id} className="link-row hoverable"> 
                     <div className="url-text">
@@ -50,12 +49,10 @@ class Categories extends Component {
             return <LoadingSpinner />
         }
     
-        if (this.props.error) {
-            {
+        if (this.props.error) {            
                 toast.error(this.props.error.error.message, {
                 position: toast.POSITION.TOP_CENTER
-              });          
-            }
+              });                      
         }
         
         return (

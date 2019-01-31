@@ -22,8 +22,7 @@ export const fetchUserCategories =  () =>  async (dispatch, getState) => {
             }),
         })
         .then(res => res.json())
-        .then(resJson => {          
-            console.log('got data');     
+        .then(resJson => {                        
             const sortedCategories = resJson.data.sort((a, b) => a.name < b.name ? -1 : (a.name > b.name) ? 1 : 0);                        
            dispatch(fetchCategoriesSuccess({ data: sortedCategories }));
         })

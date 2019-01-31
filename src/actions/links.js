@@ -1,6 +1,6 @@
 import {API_BASE_URL} from '../config';
 import {normalizeResponseErrors} from './utils';
-import { ADD_CATEGORY_SUCCESS, addCategorySuccess } from './categories';
+import { addCategorySuccess } from './categories';
 
 
 export const FETCH_LINKS_REQUEST = 'fetch_link_request';

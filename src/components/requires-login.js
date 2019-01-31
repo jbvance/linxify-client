@@ -6,8 +6,7 @@ import LoadingSpinner from './loading-spinner/loading-spinner';
 export default () => Component => {
     function RequiresLogin(props) {       
         const {authenticating, loggedIn, error, ...passThroughProps} = props;
-        if (authenticating) { 
-            console.log('LOGGING IN...');                      
+        if (authenticating) {                               
             return <LoadingSpinner />
         } else if (!loggedIn || error) {
             return <Redirect to="/" />;

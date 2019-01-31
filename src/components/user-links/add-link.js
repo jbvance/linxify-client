@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import requiresLogin from '../requires-login';
-import { addLink, fetchUserLinks } from '../../actions/links';
+import { addLink } from '../../actions/links';
 import { fetchUserCategories } from '../../actions/categories';
 import LoadingSpinner from '../loading-spinner/loading-spinner';
 import LinkForm from '../link-form/link-form';
