@@ -38,7 +38,7 @@ export const LinkForm = props => {
     const { title, url, note } = props.link ? props.link : '';
         return (     
             <div className="container">                                           
-                <form className="col s12 link-form" onSubmit={onSubmit}>
+                <form className="col s12 link-form card" onSubmit={onSubmit}>
                     <div className="row">
                         <div className="input-field col s12 ">
                             <input id="title" name="title" type="text"                             
